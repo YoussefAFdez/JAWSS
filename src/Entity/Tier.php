@@ -39,6 +39,11 @@ class Tier
         $this->usuarios = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getNombre();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

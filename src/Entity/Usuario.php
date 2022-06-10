@@ -65,6 +65,11 @@ class Usuario
         $this->favoritos = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getNombreUsuario();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
