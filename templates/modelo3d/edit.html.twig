@@ -1,0 +1,13 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Edit Modelo3D{% endblock %}
+
+{% block contenido %}
+    <h1>Edit Modelo3D</h1>
+
+    {{ include('modelo3d/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_modelo3_d_index') }}">back to list</a>
+
+    {{ include('modelo3d/_delete_form.html.twig') }}
+{% endblock %}

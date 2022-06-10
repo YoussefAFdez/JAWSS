@@ -1,0 +1,11 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}New Modelo3D{% endblock %}
+
+{% block contenido %}
+    <h1>Create new Modelo3D</h1>
+
+    {{ include('modelo3d/_form.html.twig') }}
+
+    <a href="{{ path('app_modelo3_d_index') }}">back to list</a>
+{% endblock %}

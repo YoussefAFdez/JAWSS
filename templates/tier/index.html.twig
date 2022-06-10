@@ -1,0 +1,37 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Tier index{% endblock %}
+
+{% block contenido %}
+    <h1>Tier index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Almacenamiento</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tier in tiers %}
+            <tr>
+                <td>{{ tier.id }}</td>
+                <td>{{ tier.nombre }}</td>
+                <td>{{ tier.almacenamiento }}</td>
+                <td>
+                    <a href="{{ path('app_tier_show', {'id': tier.id}) }}">show</a>
+                    <a href="{{ path('app_tier_edit', {'id': tier.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_tier_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Modelo3D index{% endblock %}
+
+{% block contenido %}
+    <h1>Modelo3D index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Material</th>
+                <th>Relleno</th>
+                <th>Resolucion</th>
+                <th>Soportes</th>
+                <th>Url</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for modelo3_d in modelo3_ds %}
+            <tr>
+                <td>{{ modelo3_d.id }}</td>
+                <td>{{ modelo3_d.material }}</td>
+                <td>{{ modelo3_d.relleno }}</td>
+                <td>{{ modelo3_d.resolucion }}</td>
+                <td>{{ modelo3_d.soportes ? 'Yes' : 'No' }}</td>
+                <td>{{ modelo3_d.url }}</td>
+                <td>
+                    <a href="{{ path('app_modelo3_d_show', {'id': modelo3_d.id}) }}">show</a>
+                    <a href="{{ path('app_modelo3_d_edit', {'id': modelo3_d.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_modelo3_d_new') }}">Create new</a>
+{% endblock %}

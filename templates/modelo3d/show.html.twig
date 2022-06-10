@@ -1,0 +1,42 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Modelo3D{% endblock %}
+
+{% block contenido %}
+    <h1>Modelo3D</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ modelo3_d.id }}</td>
+            </tr>
+            <tr>
+                <th>Material</th>
+                <td>{{ modelo3_d.material }}</td>
+            </tr>
+            <tr>
+                <th>Relleno</th>
+                <td>{{ modelo3_d.relleno }}</td>
+            </tr>
+            <tr>
+                <th>Resolucion</th>
+                <td>{{ modelo3_d.resolucion }}</td>
+            </tr>
+            <tr>
+                <th>Soportes</th>
+                <td>{{ modelo3_d.soportes ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Url</th>
+                <td>{{ modelo3_d.url }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_modelo3_d_index') }}">back to list</a>
+
+    <a href="{{ path('app_modelo3_d_edit', {'id': modelo3_d.id}) }}">edit</a>
+
+    {{ include('modelo3d/_delete_form.html.twig') }}
+{% endblock %}
