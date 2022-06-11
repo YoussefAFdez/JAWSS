@@ -1,41 +1,44 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Recurso index{% endblock %}
+{% block title %}Recursos - {{ parent() }}{% endblock %}
 
 {% block contenido %}
-    <h1>Recurso index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Descripcion</th>
-                <th>Extension</th>
-                <th>Fichero</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for recurso in recursos %}
-            <tr>
-                <td>{{ recurso.id }}</td>
-                <td>{{ recurso.nombre }}</td>
-                <td>{{ recurso.descripcion }}</td>
-                <td>{{ recurso.extension }}</td>
-                <td>{{ recurso.fichero ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_recurso_show', {'id': recurso.id}) }}">show</a>
-                    <a href="{{ path('app_recurso_edit', {'id': recurso.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_recurso_new') }}">Create new</a>
+    <div class="flex items-center mb-5 mt-5">
+        <h1 class="text-xl mr-3">Listado de Recursos</h1>
+        <a href="{{ path('app_recurso_new') }}" class="text-blue-600"><span class="fa-solid fa-plus text-sm"></span> Nuevo</a>
+    </div>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">#</th>
+                    <th scope="col" class="px-6 py-3">Nombre</th>
+                    <th scope="col" class="px-6 py-3">Descripcion</th>
+                    <th scope="col" class="px-6 py-3">Extension</th>
+                    <th scope="col" class="px-6 py-3">Fichero Común</th>
+                    <th scope="col" class="px-6 py-3"><span class="sr-only">Edit</span></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for index, recurso in recursos %}
+                <tr class="border-b dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
+                    <td class="px-6 py-4">{{ index + 1 }}</td>
+                    <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                        <a href="{{ path('app_recurso_show', {'id': recurso.id}) }}" class="text-blue-600">{{ recurso.nombre }}</a>
+                    </td>
+                    <td class="px-6 py-4">{{ recurso.descripcion }}</td>
+                    <td class="px-6 py-4">{{ recurso.extension }}</td>
+                    <td class="px-6 py-4">{{ recurso.fichero ? 'Yes' : 'No' }}</td>
+                    <td class="px-6 py-4 text-right">
+                        <a href="{{ path('app_recurso_edit', {'id': recurso.id}) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" class="px-6 py-4">No se han enontrado recursos</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

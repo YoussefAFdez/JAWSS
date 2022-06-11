@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-800">
+    <nav class="bg-white border-b-2 border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-800">
         <div class="flex flex-wrap justify-between items-center mx-auto">
             <div class="flex">
                 <a href="#" class="flex items-center">
@@ -99,7 +99,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex group items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-blue-500">
+                        <a href="{{ path('app_recurso_index') }}" class="flex group items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-blue-500">
                             <span class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-blue-500 dark:group-hover:text-white fa-solid fa-file"></span>
                             <span class="flex-1 ml-3 whitespace-nowrap group-hover:text-blue-500">Archivos</span>
                         </a>
@@ -107,7 +107,7 @@
                 </ul>
             </nav>
         </aside>
-        <main class="container">
+        <main class="container mx-auto px-10">
             {% block contenido %}
             {% endblock %}
         </main>
