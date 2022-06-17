@@ -1,3 +1,5 @@
+/.idea
+/public/archivos
 
 ###> symfony/framework-bundle ###
 /.env.local
