@@ -40,6 +40,12 @@ class Usuario
      * @var string
      * @ORM\Column(type="string")
      */
+    private $clave;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
     private $email;
 
     /**
@@ -120,6 +126,24 @@ class Usuario
     {
         $this->nombreUsuario = $nombreUsuario;
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClave(): ?string
+    {
+        return $this->clave;
+    }
+
+    /**
+     * @param string $clave
+     * @return Usuario
+     */
+    public function setClave(string $clave): Usuario
+    {
+        $this->clave = $clave;
         return $this;
     }
 
