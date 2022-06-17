@@ -37,6 +37,12 @@ class Usuario
     private $nombreUsuario;
 
     /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $email;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Tier::class, inversedBy="usuarios")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -108,6 +114,24 @@ class Usuario
     {
         $this->nombreUsuario = $nombreUsuario;
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     * @return Usuario
+     */
+    public function setEmail(string $email): Usuario
+    {
+        $this->email = $email;
         return $this;
     }
 
