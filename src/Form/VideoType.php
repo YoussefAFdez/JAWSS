@@ -6,6 +6,7 @@ use App\Entity\Video;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class VideoType extends AbstractType
 {
@@ -14,6 +15,10 @@ class VideoType extends AbstractType
         $builder
             ->add('duracion')
             ->add('recurso')
+            ->add('videoFile', VichFileType::class, [
+                'required' => false,
+                'allow_delete' => false
+            ])
         ;
     }
 

@@ -18,6 +18,10 @@
         </tbody>
     </table>
 
+    <video controls>
+        <source src="{{ vich_uploader_asset(video) }}">
+    </video>
+
     <a href="{{ path('app_video_index') }}">back to list</a>
 
     <a href="{{ path('app_video_edit', {'id': video.id}) }}">edit</a>
