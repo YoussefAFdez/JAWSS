@@ -25,7 +25,7 @@ class ImagenType extends AbstractType
                 'allow_delete' => false,
                 'download_label' => '...',
                 'download_uri' => true
-            ]);
+            ])
         ;
     }
 
