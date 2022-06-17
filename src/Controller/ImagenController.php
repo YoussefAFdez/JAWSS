@@ -17,7 +17,7 @@ class ImagenController extends AbstractController
     public function index(ImagenRepository $imagenRepository): Response
     {
         return $this->render('imagen/index.html.twig', [
-            'imagens' => $imagenRepository->findAll(),
+            'imagenes' => $imagenRepository->findAll(),
         ]);
     }
 

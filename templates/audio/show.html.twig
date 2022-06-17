@@ -18,6 +18,11 @@
         </tbody>
     </table>
 
+    <audio controls>
+        <source src="{{ vich_uploader_asset(audio) }}" type="audio/mpeg">
+        No soportado
+    </audio>
+
     <a href="{{ path('app_audio_index') }}">back to list</a>
 
     <a href="{{ path('app_audio_edit', {'id': audio.id}) }}">edit</a>

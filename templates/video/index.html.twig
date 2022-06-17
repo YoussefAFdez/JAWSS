@@ -3,33 +3,25 @@
 {% block title %}Video index{% endblock %}
 
 {% block contenido %}
-    <h1>Video index</h1>
+    <h1 class="text-xl font-bold mb-6 mt-3">Listado de vídeos</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Duracion</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="flex gap-2">
         {% for video in videos %}
-            <tr>
-                <td>{{ video.id }}</td>
-                <td>{{ video.duracion }}</td>
-                <td>
-                    <a href="{{ path('app_video_show', {'id': video.id}) }}">show</a>
-                    <a href="{{ path('app_video_edit', {'id': video.id}) }}">edit</a>
-                </td>
-            </tr>
+            <a href="{{ path('app_video_show', {'id': video.id}) }}">
+                <div class="relative w-64 aspect-video rounded-lg overflow-hidden flex bg-black">
+                    <video class="w-full">
+                        <source src="{{ vich_uploader_asset(video) }}">
+                    </video>
+                    <div class="flex pl-2 items-end opacity-0 hover:opacity-100 transition-opacity duration-300 hover:backdrop-blur-sm hover:bg-black/40 absolute w-full h-full py-2.5 bottom-0 inset-x-0 text-white text-xs leading-4">
+                        <div>
+                            <h2 class="ml-3 text-sm font-semibold text-white">{{ video.recurso }}</h2>
+                            <h3 class="ml-3 text-xs font-medium text-white">{{ video.recurso.propietario }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </a>
         {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
+            <h2>No hay vídeos que mostrar</h2>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_video_new') }}">Create new</a>
+    </div>
 {% endblock %}
