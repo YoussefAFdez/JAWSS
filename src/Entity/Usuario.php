@@ -43,6 +43,12 @@ class Usuario
     private $email;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $administrador;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Tier::class, inversedBy="usuarios")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -132,6 +138,24 @@ class Usuario
     public function setEmail(string $email): Usuario
     {
         $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAdministrador(): ?bool
+    {
+        return $this->administrador;
+    }
+
+    /**
+     * @param bool $administrador
+     * @return Usuario
+     */
+    public function setAdministrador(bool $administrador): Usuario
+    {
+        $this->administrador = $administrador;
         return $this;
     }
 
