@@ -4,9 +4,13 @@ namespace App\Entity;
 
 use App\Repository\ImagenRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=ImagenRepository::class)
+ * @Vich\Uploadable
  */
 class Imagen
 {
@@ -18,9 +22,34 @@ class Imagen
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Vich\UploadableField(mapping="imagen", fileNameProperty="nombreImagen", size="tamanio", mimeType="tipoImagen")
+     * @var File|null
+     * @Assert\File(maxSize="31457280")
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="string")
      */
     private $resolucion;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $nombreImagen;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private $tamanio;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $tipoImagen;
 
     /**
      * @ORM\OneToOne(targetEntity=Recurso::class, cascade={"persist", "remove"})
@@ -32,15 +61,93 @@ class Imagen
         return $this->id;
     }
 
-    public function getResolucion(): ?string
+    /**
+     * @return mixed
+     */
+    public function getResolucion()
     {
         return $this->resolucion;
     }
 
-    public function setResolucion(string $resolucion): self
+    /**
+     * @param mixed $resolucion
+     * @return Imagen
+     */
+    public function setResolucion($resolucion)
     {
         $this->resolucion = $resolucion;
+        return $this;
+    }
 
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File|null $imageFile
+     * @return Imagen
+     */
+    public function setImageFile(?File $imageFile): Imagen
+    {
+        $this->imageFile = $imageFile;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombreImagen(): ?string
+    {
+        return $this->nombreImagen;
+    }
+
+    /**
+     * @param string $nombreImagen
+     * @return Imagen
+     */
+    public function setNombreImagen(string $nombreImagen): Imagen
+    {
+        $this->nombreImagen = $nombreImagen;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTamanio(): ?int
+    {
+        return $this->tamanio;
+    }
+
+    /**
+     * @param int $tamanio
+     * @return Imagen
+     */
+    public function setTamanio(int $tamanio): Imagen
+    {
+        $this->tamanio = $tamanio;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTipoImagen(): ?string
+    {
+        return $this->tipoImagen;
+    }
+
+    /**
+     * @param string $tipoImagen
+     * @return Imagen
+     */
+    public function setTipoImagen(string $tipoImagen): Imagen
+    {
+        $this->tipoImagen = $tipoImagen;
         return $this;
     }
 

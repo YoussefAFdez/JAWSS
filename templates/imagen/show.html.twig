@@ -18,6 +18,8 @@
         </tbody>
     </table>
 
+    <image src="{{ vich_uploader_asset(imagen) }}" alt="{{ imagen.nombreImagen }}"></image>
+
     <a href="{{ path('app_imagen_index') }}">back to list</a>
 
     <a href="{{ path('app_imagen_edit', {'id': imagen.id}) }}">edit</a>

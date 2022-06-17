@@ -29,6 +29,8 @@ class ImagenController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //Guardamos la imagen
+            dump($imagen->getResolucion());
             $imagenRepository->add($imagen, true);
 
             return $this->redirectToRoute('app_imagen_index', [], Response::HTTP_SEE_OTHER);
