@@ -10,3 +10,7 @@ import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
+
+$( '#select-field' ).select2( {
+    theme: 'bootstrap-5'
+} );

@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/usuario')]
 class UsuarioController extends AbstractController
@@ -74,5 +75,21 @@ class UsuarioController extends AbstractController
         }
 
         return $this->redirectToRoute('app_usuario_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/query/usuarios', name: 'api_usuario_query', methods: ['GET'])]
+    public function apiPersonQuery(
+        UsuarioRepository $usuarioRepository,
+    ): Response
+    {
+
+        $usuarios = $usuarioRepository->findAll();
+
+        $data = [];
+        foreach ($usuarios as $usuario) {
+            $data[] = ['id' => $usuario->getId(), 'text' => $usuario->getNombreUsuario()];
+        }
+
+        return new JsonResponse($data);
     }
 }

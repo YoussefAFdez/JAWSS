@@ -63,4 +63,13 @@ class RecursoRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findByBusqueda(string $busquedaQuery)
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.nombre LIKE :param')
+            ->setParameter('param', '%' . $busquedaQuery . '%')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

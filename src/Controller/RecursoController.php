@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/recurso')]
 class RecursoController extends AbstractController
@@ -74,5 +75,23 @@ class RecursoController extends AbstractController
         }
 
         return $this->redirectToRoute('app_recurso_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/query/recrusos', name: 'api_recurso_query', methods: ['GET'])]
+    public function apiPersonQuery(
+        Request $request,
+        RecursoRepository $recursoRepository,
+    ): Response
+    {
+        $busquedaQuery = $request->get('q');
+
+        $recursos = $recursoRepository->findByBusqueda($busquedaQuery);
+
+        $data = [];
+        foreach ($recursos as $recurso) {
+            $data[] = ['id' => $recurso->getId(), 'text' => $recurso->getNombre()];
+        }
+
+        return new JsonResponse($data);
     }
 }

@@ -2,6 +2,9 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     globals:
         kernelProjectDir: '%kernel.project_dir%'
+    form_themes:
+        - 'tailwind_2_layout.html.twig'
+        - '@TetranzSelect2Entity/Form/fields.html.twig'
 
 when@test:
     twig:

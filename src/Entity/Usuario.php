@@ -72,7 +72,7 @@ class Usuario
     private $recursosAccesibles;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Recurso::class, mappedBy="favoritos")
+     * @ORM\ManyToMany(targetEntity=Recurso::class, mappedBy="favorito")
      * @JoinTable(name="favoritos")
      */
     private $favoritos;
