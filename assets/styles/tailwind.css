@@ -4,11 +4,11 @@
 
 .select2-container {
     /* The container where the selectbox is housing*/
-    @apply relative box-border align-middle inline-block m-0 mb-2 w-full;
+    @apply relative box-border align-middle inline-block m-0 mb-2;
 }
 .select2-container .select2-selection--single {
     /* Selection box itself */
-    @apply box-border cursor-pointer block select-none shadow border rounded w-full;
+    @apply box-border cursor-pointer block select-none shadow border rounded;
 }
 
 .select2-container .select2-selection--single .select2-selection__rendered {
