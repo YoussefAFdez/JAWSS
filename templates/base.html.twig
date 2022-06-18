@@ -1,9 +1,5 @@
 <!DOCTYPE html>
 <html>
-    <body class="dark:bg-gray-900 dark:text-white">
-        {% block body %}{% endblock %}
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
-    </body>
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}JAWSS{% endblock %}</title>
@@ -24,4 +20,8 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
+    <body class="dark:bg-gray-900 dark:text-white h-screen">
+        {% block body %}{% endblock %}
+        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+    </body>
 </html>
