@@ -25,7 +25,7 @@ class Tier
     private $nombre;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      */
     private $almacenamiento;
 
@@ -61,12 +61,12 @@ class Tier
         return $this;
     }
 
-    public function getAlmacenamiento(): ?int
+    public function getAlmacenamiento(): ?string
     {
         return $this->almacenamiento;
     }
 
-    public function setAlmacenamiento(int $almacenamiento): self
+    public function setAlmacenamiento(string $almacenamiento): self
     {
         $this->almacenamiento = $almacenamiento;
 
