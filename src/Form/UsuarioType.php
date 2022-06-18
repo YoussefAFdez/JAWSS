@@ -44,7 +44,7 @@ class UsuarioType extends AbstractType
                 'multiple' => true,
                 'text_property' => 'nombreUsuario',
                 'class' => Recurso::class,
-                'minimum_input_length' => 3,
+                'minimum_input_length' => 2,
                 'required' => false,
                 'remote_route' => 'api_recurso_query'
             ])
