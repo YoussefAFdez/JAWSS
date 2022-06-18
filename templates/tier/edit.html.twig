@@ -1,13 +1,12 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Edit Tier{% endblock %}
+{% block title %}Editar Tier - {{ parent() }}{% endblock %}
 
 {% block contenido %}
-    <h1>Edit Tier</h1>
+    <h1 class="text-xl my-4 font-bold">Editando "{{ tier.nombre }}"</h1>
 
-    {{ include('tier/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('tier/_form.html.twig', {'button_label': 'Actualizar'}) }}
 
-    <a href="{{ path('app_tier_index') }}">back to list</a>
-
+    <a href="{{ path('app_tier_index') }}" class="text-blue-600 mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
     {{ include('tier/_delete_form.html.twig') }}
 {% endblock %}

@@ -1,37 +1,40 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Tier index{% endblock %}
+{% block title %}Tiers - {{ parent() }}{% endblock %}
 
 {% block contenido %}
-    <h1>Tier index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Almacenamiento</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for tier in tiers %}
-            <tr>
-                <td>{{ tier.id }}</td>
-                <td>{{ tier.nombre }}</td>
-                <td>{{ tier.almacenamiento }}</td>
-                <td>
-                    <a href="{{ path('app_tier_show', {'id': tier.id}) }}">show</a>
-                    <a href="{{ path('app_tier_edit', {'id': tier.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_tier_new') }}">Create new</a>
+    <div class="flex items-center mb-5 mt-5">
+        <h1 class="text-xl mr-3">Listado de Tiers</h1>
+        <a href="{{ path('app_tier_new') }}" class="text-blue-600"><span class="fa-solid fa-plus text-sm"></span> Nuevo</a>
+    </div>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-200">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-200">
+                <tr>
+                    <th scope="col" class="px-6 py-3">#</th>
+                    <th scope="col" class="px-6 py-3">Nombre</th>
+                    <th scope="col" class="px-6 py-3">Almacenamiento</th>
+                    <th scope="col" class="px-6 py-3"><span class="sr-only">Editar</span></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for index, tier in tiers %}
+                <tr class="border-b dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700 dark:text-gray-200">
+                    <td class="px-6 py-4">{{ index + 1 }}</td>
+                    <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                        <a href="{{ path('app_tier_show', {'id': tier.id}) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ tier.nombre }}</a>
+                    </td>
+                    <td class="px-6 py-4">{{ tier.almacenamiento / 1048576 }} MB</td>
+                    <td class="px-6 py-4">
+                        <a href="{{ path('app_tier_edit', {'id': tier.id}) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No se han encontrado Tiers</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

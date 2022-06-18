@@ -1,30 +1,25 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Tier{% endblock %}
+{% block title %}Tier - {{ parent() }}{% endblock %}
 
 {% block contenido %}
-    <h1>Tier</h1>
+    <h1 class="text-xl my-4 font-bold">{{ tier.nombre }}</h1>
 
-    <table class="table">
+    <table class="mb-4 w-full">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ tier.id }}</td>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 w-full">
+                <td class="px-6 py-4 font-bold">Nombre</td>
+                <td class="px-6 py-4">{{ tier.nombre }}</td>
             </tr>
-            <tr>
-                <th>Nombre</th>
-                <td>{{ tier.nombre }}</td>
-            </tr>
-            <tr>
-                <th>Almacenamiento</th>
-                <td>{{ tier.almacenamiento }}</td>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 w-full">
+                <td class="px-6 py-4 font-bold">Almacenamiento</td>
+                <td class="px-6 py-4">{{ tier.almacenamiento / 1048576 }} MB</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_tier_index') }}">back to list</a>
-
-    <a href="{{ path('app_tier_edit', {'id': tier.id}) }}">edit</a>
+    <a href="{{ path('app_tier_index') }}" class="text-blue-600 hover:underline mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
+    <a href="{{ path('app_tier_edit', {'id': tier.id}) }}" class="text-blue-600 hover:underline mr-2"><span class="fa-solid fa-pen-to-square"></span> Editar</a>
 
     {{ include('tier/_delete_form.html.twig') }}
 {% endblock %}

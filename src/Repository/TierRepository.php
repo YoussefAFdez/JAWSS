@@ -63,4 +63,13 @@ class TierRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findOrdenadosByAlmacenamiento()
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.almacenamiento')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

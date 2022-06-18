@@ -17,7 +17,7 @@ class TierController extends AbstractController
     public function index(TierRepository $tierRepository): Response
     {
         return $this->render('tier/index.html.twig', [
-            'tiers' => $tierRepository->findAll(),
+            'tiers' => $tierRepository->findOrdenadosByAlmacenamiento(),
         ]);
     }
 
@@ -29,6 +29,10 @@ class TierController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $almacenamiento = $form->get('almacenamiento')->getData();
+            $tier->setAlmacenamiento(intval($almacenamiento) * 1048576);
+
             $tierRepository->add($tier, true);
 
             return $this->redirectToRoute('app_tier_index', [], Response::HTTP_SEE_OTHER);
@@ -45,6 +49,7 @@ class TierController extends AbstractController
     {
         return $this->render('tier/show.html.twig', [
             'tier' => $tier,
+            'usuarios' => $tier->getUsuarios(),
         ]);
     }
 
@@ -55,6 +60,10 @@ class TierController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $almacenamiento = $form->get('almacenamiento')->getData();
+            $tier->setAlmacenamiento(intval($almacenamiento) * 1048576);
+
             $tierRepository->add($tier, true);
 
             return $this->redirectToRoute('app_tier_index', [], Response::HTTP_SEE_OTHER);
