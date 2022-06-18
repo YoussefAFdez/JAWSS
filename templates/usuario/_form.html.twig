@@ -1,17 +1,6 @@
 {% form_theme form 'tailwind_2_layout.html.twig' %}
 {% form_theme form '@TetranzSelect2Entity/Form/fields.html.twig' %}
 
-<table class="yuu-tabla">
-    <tr>
-        <th>Prueba</th>
-        <th>Segunda COL</th>
-    </tr>
-    <tr>
-        <td>Escrito</td>
-        <td>Escrito</td>
-    </tr>
-</table>
-
 {{ form_start(form) }}
     {{ form_row(form.nombre, {
         row_class: 'mb-4',
