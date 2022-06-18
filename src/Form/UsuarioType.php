@@ -48,12 +48,6 @@ class UsuarioType extends AbstractType
                 'required' => false,
                 'remote_route' => 'api_recurso_query'
             ])
-            ->add('favoritos', EntityType::class, [
-                'label' => 'Favoritos:',
-                'class' => Recurso::class,
-                'multiple' => true,
-                'placeholder' => 'Selecciona una o varias'
-            ])
             ->add('administrador', CheckboxType::class, [
                 'label' => 'Administrador'
             ])
