@@ -2,6 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+.table-wrapper {
+    @apply relative overflow-x-auto shadow-md sm:rounded-lg;
+}
+
+.table {
+    @apply w-full text-sm text-left text-gray-500 dark:text-gray-200;
+}
+
+.table thead {
+    @apply text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-200;
+}
+
+.table thead th {
+    @apply px-6 py-3;
+}
+
+.table tbody tr {
+    @apply border-b dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700 dark:text-gray-200;
+}
+
+.table tbody td {
+    @apply px-6 py-4;
+}
+
+.table-enfasis {
+    @apply font-medium text-gray-900 dark:text-white whitespace-nowrap;
+}
+
+.table-link {
+    @apply font-medium text-blue-600 dark:text-blue-500 hover:underline;
+}
+
 .select2entity {
     @apply w-full;
 }
