@@ -1,4 +1,50 @@
+{% form_theme form 'tailwind_2_layout.html.twig' %}
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_row(form.recurso.nombre, {
+        row_class: 'mb-4',
+        widget_class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+        label_class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+    }) }}
+    {{ form_row(form.recurso.descripcion, {
+        row_class: 'mb-4',
+        widget_class: 'block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+        label_class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+    }) }}
+    <label class="relative inline-flex items-center mb-4 cursor-pointer">
+        {{ form_widget(form.recurso.fichero, { 'attr': {'class': 'sr-only peer'} }) }}
+        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Fichero</span>
+    </label>
+    {{ form_row(form.recurso.extension, {
+        row_class: 'mb-4',
+        widget_class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+        label_class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+    }) }}
+    {{ form_row(form.recurso.propietario, {
+        row_class: 'mb-4 w-full',
+        widget_class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+        label_class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+    }) }}
+    {{ form_row(form.recurso.favorito, {
+        row_class: 'mb-4 w-full',
+        widget_class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+        label_class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+    }) }}
+    {{ form_row(form.recurso.usuarios, {
+        row_class: 'mb-4 w-full',
+        widget_class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+        label_class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+    }) }}
+    {{ form_row(form.duracion, {
+        row_class: 'mb-4',
+        widget_class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+        label_class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+    }) }}
+    {{ form_row(form.audioFile, {
+        row_class: 'mb-0',
+        label_class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+    }) }}
+<div class="mt-1 mb-4 text-sm text-gray-500 dark:text-gray-300" id="user_avatar_help">Selecciona un audio. Formatos admitidos: mp3.</div>
+<button class="text-blue-600 mb-2"><span class="fa-solid fa-floppy-disk"></span> {{ button_label|default('Guardar') }}</button>
 {{ form_end(form) }}
