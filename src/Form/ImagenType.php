@@ -20,7 +20,7 @@ class ImagenType extends AbstractType
             ->add('recurso', RecursoType::class)
             ->add('resolucion', TextType::class)
             ->add('imageFile', VichImageType::class, [
-                'label' => 'Subir fichero',
+                'label' => 'Subir fichero:',
                 'required' => false,
                 'allow_delete' => false,
                 'download_label' => '',
