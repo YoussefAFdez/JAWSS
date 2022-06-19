@@ -11,10 +11,10 @@ vich_uploader:
             upload_destination: '%kernel.project_dir%/public/archivos/videos'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
         audio:
-            uri_prefix: /archivos/audio
+            uri_prefix: /archivos/audios
             upload_destination: '%kernel.project_dir%/public/archivos/audios'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
-        objeto:
-            uri_prefix: /archivos/objeto
-            upload_destination: '%kernel.project_dir%/public/archivos/objetos'
+        modelo3d:
+            uri_prefix: /archivos/modelo3d
+            upload_destination: '%kernel.project_dir%/public/archivos/modelos3d'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer

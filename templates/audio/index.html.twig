@@ -1,35 +1,41 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Audio index{% endblock %}
+{% block title %}Música - {{ parent() }}{% endblock %}
 
 {% block contenido %}
-    <h1>Audio index</h1>
+    <div class="flex items-center mb-5 mt-5">
+        <h1 class="text-xl mr-3">Listado de Canciones</h1>
+        <a href="{{ path('app_audio_new') }}" class="text-blue-600"><span class="fa-solid fa-plus text-sm"></span> Nuevo</a>
+    </div>
 
-    <table class="table-auto">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Duracion</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for audio in audio %}
-            <tr>
-                <td>{{ audio.id }}</td>
-                <td>{{ audio.duracion }}</td>
-                <td>
-                    <a href="{{ path('app_audio_show', {'id': audio.id}) }}">show</a>
-                    <a href="{{ path('app_audio_edit', {'id': audio.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_audio_new') }}">Create new</a>
+    <div class="table-wrapper">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Duración</th>
+                    <th><span class="sr-only">Editar</span></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for index, audio in audios %}
+                <tr>
+                    <td>{{ index + 1 }}</td>
+                    <td class="table-enfasis">
+                        <a href="{{ path('app_audio_show', {'id': audio.id}) }}" class="table-link">{{ audio.recurso.nombre }}</a>
+                    </td>
+                    <td>{{ audio.duracion }}</td>
+                    <td>
+                        <a href="{{ path('app_audio_edit', {'id': audio.id}) }}" class="table-link">Editar</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

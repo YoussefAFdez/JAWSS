@@ -75,4 +75,10 @@ class Modelo3DController extends AbstractController
 
         return $this->redirectToRoute('app_modelo3d_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/modelo/prueba', name: 'app_prueba3d')]
+    Public function prueba3D(): Response
+    {
+        return $this->render('modelo3d/prueba.html.twig');
+    }
 }

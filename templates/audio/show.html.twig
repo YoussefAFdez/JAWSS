@@ -8,8 +8,8 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ audio.id }}</td>
+                <th>Nombre</th>
+                <td>{{ audio.recurso }}</td>
             </tr>
             <tr>
                 <th>Duracion</th>
@@ -18,9 +18,8 @@
         </tbody>
     </table>
 
-    <audio controls>
-        <source src="{{ vich_uploader_asset(audio) }}" type="audio/mpeg">
-        No soportado
+    <audio preload="auto" controls>
+        <source src="{{ vich_uploader_asset(audio) }}">
     </audio>
 
     <a href="{{ path('app_audio_index') }}">back to list</a>

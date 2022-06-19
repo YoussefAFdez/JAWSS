@@ -17,7 +17,7 @@ class AudioController extends AbstractController
     public function index(AudioRepository $audioRepository): Response
     {
         return $this->render('audio/index.html.twig', [
-            'audio' => $audioRepository->findAll(),
+            'audios' => $audioRepository->findAll(),
         ]);
     }
 

@@ -10,6 +10,7 @@
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
             {{ encore_entry_link_tags('tailwind') }}
             <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
+            <link rel="stylesheet" href="{{ asset('js/JSAudioPlayer/css/audioplayer.css') }}" />
         {% endblock %}
 
         {% block javascripts %}
@@ -17,12 +18,15 @@
             <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
             <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
             <script src="{{ kernelProjectDir ~ '/node_modules/flowbyte/dist/flowbite.js' }}"></script>
+            <script src="{{ asset('js/JSAudioPlayer/js/audioplayer.js') }}"></script>
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
     <body class="dark:bg-gray-900 dark:text-white h-screen">
         {% block body %}{% endblock %}
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
-        <script src="{{ asset('build/three.js') }}"></script>
+        <script>
+
+        </script>
     </body>
 </html>
