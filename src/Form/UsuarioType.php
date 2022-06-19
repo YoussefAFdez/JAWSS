@@ -49,7 +49,8 @@ class UsuarioType extends AbstractType
                 'remote_route' => 'api_recurso_query'
             ])
             ->add('administrador', CheckboxType::class, [
-                'label' => 'Administrador'
+                'label' => 'Administrador',
+                'required' => false,
             ])
         ;
     }

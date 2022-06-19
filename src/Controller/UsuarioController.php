@@ -30,6 +30,8 @@ class UsuarioController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //Inicializamos el espacio utilizado por el usuario a 0
+            $usuario->setEspacioUtilizado(0);
             $usuarioRepository->add($usuario, true);
 
             return $this->redirectToRoute('app_usuario_index', [], Response::HTTP_SEE_OTHER);

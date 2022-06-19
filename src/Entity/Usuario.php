@@ -55,6 +55,12 @@ class Usuario
     private $administrador;
 
     /**
+     * @var string
+     * @ORM\Column(type="bigint")
+     */
+    private $espacioUtilizado;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Tier::class, inversedBy="usuarios")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -180,6 +186,24 @@ class Usuario
     public function setAdministrador(bool $administrador): Usuario
     {
         $this->administrador = $administrador;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEspacioUtilizado(): ?string
+    {
+        return $this->espacioUtilizado;
+    }
+
+    /**
+     * @param string $espacioUtilizado
+     * @return Usuario
+     */
+    public function setEspacioUtilizado(string $espacioUtilizado): Usuario
+    {
+        $this->espacioUtilizado = $espacioUtilizado;
         return $this;
     }
 
