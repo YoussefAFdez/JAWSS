@@ -1,13 +1,11 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Edit Imagen{% endblock %}
+{% block title %}Editar Imagen {{ parent() }}{% endblock %}
 
 {% block contenido %}
-    <h1>Edit Imagen</h1>
+    <h1 class="text-xl my-4 font-bold">Editando "{{ imagen.recurso }}"</h1>
 
-    {{ include('imagen/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_imagen_index') }}">back to list</a>
-
+    {{ include('imagen/_form.html.twig', {'button_label': 'Actualizar'}) }}
+    <a href="{{ path('app_imagen_index') }}" class="text-blue-600 mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
     {{ include('imagen/_delete_form.html.twig') }}
 {% endblock %}

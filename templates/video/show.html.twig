@@ -3,28 +3,47 @@
 {% block title %}Video{% endblock %}
 
 {% block contenido %}
-    <h1>Video</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ video.id }}</td>
-            </tr>
-            <tr>
-                <th>Duracion</th>
-                <td>{{ video.duracion }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <video controls>
+    <video controls class="mt-3 block rounded-xl">
         <source src="{{ vich_uploader_asset(video) }}">
     </video>
 
-    <a href="{{ path('app_video_index') }}">back to list</a>
+    <div class="flex items-baseline">
+        <h1 class="text-xl my-4 font-bold mr-5">{{ video.recurso }}</h1>
+        <a class="text-blue-600 hover:underline" href="{{ vich_uploader_asset(video) }}" download><span class="fa-solid fa-download"></span> Descargar</a>
+    </div>
 
-    <a href="{{ path('app_video_edit', {'id': video.id}) }}">edit</a>
+    <div class="table-wrapper mb-4">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Duración</th>
+                <th>Tamaño (MB)</th>
+                <th>Extensión</th>
+                <th>Propietario</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="table-enfasis">{{ video.recurso.nombre }}</td>
+                <td>{{ video.recurso.descripcion }}</td>
+                <td>{{ video.duracion }}</td>
+                <td>{{ (video.tamanio / 1048576) | number_format(2, ',', '.') }} MB</td>
+                <td>{{ video.recurso.extension }}</td>
+                <td class="table-enfasis">
+                    <a class="table-link" href="{{ path('app_usuario_show', {'id': video.recurso.propietario.id}) }}">{{ video.recurso.propietario }}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-    {{ include('video/_delete_form.html.twig') }}
+    <div class="mb-8">
+        <a href="{{ path('app_video_index') }}" class="text-blue-600 hover:underline mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
+        <a href="{{ path('app_video_edit', {'id': video.id}) }}" class="text-blue-600 hover:underline mr-2"><span class="fa-solid fa-pen-to-square"></span> Editar</a>
+        {{ include('video/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

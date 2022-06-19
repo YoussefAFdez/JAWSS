@@ -19,9 +19,9 @@
             <tr>
                 <th>Nombre</th>
                 <th>Descripción</th>
-                <th>Extensión</th>
                 <th>Resolución</th>
                 <th>Tamaño (MB)</th>
+                <th>Extensión</th>
                 <th>Propietario</th>
             </tr>
             </thead>
@@ -29,9 +29,9 @@
             <tr>
                 <td class="table-enfasis">{{ imagen.recurso.nombre }}</td>
                 <td>{{ imagen.recurso.descripcion }}</td>
-                <td>{{ imagen.recurso.extension }}</td>
                 <td>{{ imagen.resolucion }}</td>
                 <td>{{ (imagen.tamanio / 1048576) | number_format(2, ',', '.') }} MB</td>
+                <td>{{ imagen.recurso.extension }}</td>
                 <td class="table-enfasis">
                     <a class="table-link" href="{{ path('app_usuario_show', {'id': imagen.recurso.propietario.id}) }}">{{ imagen.recurso.propietario }}</a>
                 </td>
