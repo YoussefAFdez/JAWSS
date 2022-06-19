@@ -1,43 +1,46 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Modelo3D index{% endblock %}
+{% block title %}Modelos3D - {{ parent() }}{% endblock %}
 
 {% block contenido %}
-    <h1>Modelo3D index</h1>
+    <div class="flex items-center mb-5 mt-5">
+        <h1 class="text-xl mr-3">Listado de Modelos 3D</h1>
+        <a href="{{ path('app_modelo3d_new') }}" class="text-blue-600"><span class="fa-solid fa-plus text-sm"></span> Nuevo</a>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Material</th>
-                <th>Relleno</th>
-                <th>Resolucion</th>
-                <th>Soportes</th>
-                <th>Url</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for modelo3_d in modelo3_ds %}
-            <tr>
-                <td>{{ modelo3_d.id }}</td>
-                <td>{{ modelo3_d.material }}</td>
-                <td>{{ modelo3_d.relleno }}</td>
-                <td>{{ modelo3_d.resolucion }}</td>
-                <td>{{ modelo3_d.soportes ? 'Yes' : 'No' }}</td>
-                <td>{{ modelo3_d.url }}</td>
-                <td>
-                    <a href="{{ path('app_modelo3_d_show', {'id': modelo3_d.id}) }}">show</a>
-                    <a href="{{ path('app_modelo3_d_edit', {'id': modelo3_d.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_modelo3_d_new') }}">Create new</a>
+    <div class="table-wrapper">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Material</th>
+                    <th>Relleno</th>
+                    <th>Resolucion</th>
+                    <th>Soportes</th>
+                    <th>Url</th>
+                    <th><span class="sr-only">Ver y Editar</span></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for index, modelo3d in modelos3d %}
+                <tr>
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ modelo3d.material }}</td>
+                    <td>{{ modelo3d.relleno }}</td>
+                    <td>{{ modelo3d.resolucion }}</td>
+                    <td>{{ modelo3d.soportes ? 'Si' : 'No' }}</td>
+                    <td>{{ modelo3d.url }}</td>
+                    <td>
+                        <a class="table-link" href="{{ path('app_modelo3d_show', {'id': modelo3_d.id}) }}">Ver</a>
+                        <a class="table-link" href="{{ path('app_modelo3d_edit', {'id': modelo3_d.id}) }}">Editar</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">No se han encontrado Modelos 3D</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
