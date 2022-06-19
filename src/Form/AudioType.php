@@ -18,6 +18,7 @@ class AudioType extends AbstractType
             ->add('recurso', RecursoType::class)
             ->add('duracion', TextType::class)
             ->add('audioFile', VichFileType::class, [
+                'label' => 'Subir fichero:'
                 'required' => false,
                 'allow_delete' => false,
                 'download_label' => '',
