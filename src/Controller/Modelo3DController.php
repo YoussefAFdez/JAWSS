@@ -10,14 +10,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/modelo3d/')]
+#[Route('/modelo3d')]
 class Modelo3DController extends AbstractController
 {
     #[Route('/', name: 'app_modelo3d_index', methods: ['GET'])]
     public function index(Modelo3DRepository $modelo3DRepository): Response
     {
-        return $this->render('modelo3_d/index.html.twig', [
-            'modelo3_ds' => $modelo3DRepository->findAll(),
+        return $this->render('modelo3d/index.html.twig', [
+            'modelos3d' => $modelo3DRepository->findAll(),
         ]);
     }
 
@@ -31,10 +31,10 @@ class Modelo3DController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $modelo3DRepository->add($modelo3D, true);
 
-            return $this->redirectToRoute('app_modelo3_d_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_modelo3d_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('modelo3_d/new.html.twig', [
+        return $this->renderForm('modelo3d/new.html.twig', [
             'modelo3d' => $modelo3D,
             'form' => $form,
         ]);
@@ -43,7 +43,7 @@ class Modelo3DController extends AbstractController
     #[Route('/{id}', name: 'app_modelo3d_show', methods: ['GET'])]
     public function show(Modelo3D $modelo3D): Response
     {
-        return $this->render('modelo3_d/show.html.twig', [
+        return $this->render('modelo3d/show.html.twig', [
             'modelo3d' => $modelo3D,
         ]);
     }
@@ -57,10 +57,10 @@ class Modelo3DController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $modelo3DRepository->add($modelo3D, true);
 
-            return $this->redirectToRoute('app_modelo3_d_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_modelo3d_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('modelo3_d/edit.html.twig', [
+        return $this->renderForm('modelo3d/edit.html.twig', [
             'modelo3d' => $modelo3D,
             'form' => $form,
         ]);
@@ -73,6 +73,6 @@ class Modelo3DController extends AbstractController
             $modelo3DRepository->remove($modelo3D, true);
         }
 
-        return $this->redirectToRoute('app_modelo3_d_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_modelo3d_index', [], Response::HTTP_SEE_OTHER);
     }
 }
