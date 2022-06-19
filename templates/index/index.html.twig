@@ -3,38 +3,39 @@
 {% block title %}Hello IndexController!{% endblock %}
 
 {% block contenido %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1 class="text-blue-400">Hello {{ controller_name }}! ✅</h1>
+<div class="w-full h-full pt-4">
 
+    <h1 class="font-bold text-4xl">Bienvenido a JAWSS</h1>
+    <h2 class="font-semibold text-xl">Just Another Web Storage Solution - "Simplemente Otra Propuesta De Almacenamiento Web"</h2>
 
-    <button id="dropdownDefault" data-dropdown-toggle="dropdown" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Dropdown button <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
-    <!-- Dropdown menu -->
-    <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700">
-        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
-            <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-            </li>
-            <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-            </li>
-            <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-            </li>
-            <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
-            </li>
-        </ul>
+    <!-- Galeria de opciones -->
+    <div class="flex justify-between items-center w-full px-4 mt-14 mb-4">
+        <a href="{{ path('app_imagen_index') }}" class="block h-40 w-40 hover:scale-110 transition-all duration-500 ease-in-out text-blue-600 border-4 border-gray-600 shadow-md rounded-xl hover:bg-blue-600 hover:text-white">
+            <div class="flex justify-center items-center flex-col h-full">
+                <div class="fa-solid fa-images text-7xl"></div>
+                <h3 class="font-bold text-xl">Imágenes</h3>
+            </div>
+        </a>
+        <a href="{{ path('app_video_index') }}" class="block h-40 w-40 hover:scale-110 transition-all duration-500 ease-in-out text-blue-600 border-4 border-gray-600 shadow-md rounded-xl hover:bg-blue-600 hover:text-white">
+            <div class="flex justify-center items-center flex-col h-full">
+                <div class="fa-solid fa-video text-7xl"></div>
+                <h3 class="font-bold text-xl">Vídeos</h3>
+            </div>
+        </a>
+        <a href="{{ path('app_audio_index') }}" class="block h-40 w-40 hover:scale-110 transition-all duration-500 ease-in-out text-blue-600 border-4 border-gray-600 shadow-md rounded-xl hover:bg-blue-600 hover:text-white">
+            <div class="flex justify-center items-center flex-col h-full">
+                <div class="fa-solid fa-music text-7xl"></div>
+                <h3 class="font-bold text-xl">Música</h3>
+            </div>
+        </a>
+        <a href="{{ path('app_modelo3d_index') }}" class="block h-40 w-40 hover:scale-110 transition-all duration-500 ease-in-out text-blue-600 border-4 border-gray-600 shadow-md rounded-xl hover:bg-blue-600 hover:text-white">
+            <div class="flex justify-center items-center flex-col h-full">
+                <div class="fa-solid fa-cube text-7xl"></div>
+                <h3 class="font-bold text-xl">Modelos 3D</h3>
+            </div>
+        </a>
     </div>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/yuu/Documents/Symfony/JAWSS/src/Controller/IndexController.php'|file_link(0) }}">src/Controller/IndexController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/yuu/Documents/Symfony/JAWSS/templates/index/index.html.twig'|file_link(0) }}">templates/index/index.html.twig</a></code></li>
-    </ul>
+    <a href="#" class="text-blue-600 hover:underline">Ver todos los ficheros...</a>
 </div>
 {% endblock %}
