@@ -31,6 +31,10 @@ class ImagenController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imagenRepository->add($imagen, true);
 
+            //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario
+            $propietario = $imagen->getRecurso()->getPropietario();
+            $propietario->setEspacioUtilizado($propietario->getEspacioUtilizado() + $imagen->getTamanio());
+
             return $this->redirectToRoute('app_imagen_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -51,11 +55,22 @@ class ImagenController extends AbstractController
     #[Route('/{id}/edit', name: 'app_imagen_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Imagen $imagen, ImagenRepository $imagenRepository): Response
     {
+        //Recogemos el tamaño previo a la modificación
+        $tamanioPrevio = $imagen->getTamanio();
+
         $form = $this->createForm(ImagenType::class, $imagen);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $imagenRepository->add($imagen, true);
+
+            //Actualizamos el espacio utilizado por el propietario
+
+            $propietario = $imagen->getRecurso()->getPropietario();
+
+
+            $propietario->setEspacioUtilizado($propietario->getEspacioUtilizado() - $tamanioPrevio + $imagen->getTamanio());
 
             return $this->redirectToRoute('app_imagen_index', [], Response::HTTP_SEE_OTHER);
         }
