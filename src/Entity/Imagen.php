@@ -22,7 +22,7 @@ class Imagen
     private $id;
 
     /**
-     * @Vich\UploadableField(mapping="imagen", fileNameProperty="nombreImagen", size="tamanio", mimeType="tipoImagen")
+     * @Vich\UploadableField(mapping="imagen", fileNameProperty="nombreImagen", size="tamanio")
      * @var File|null
      * @Assert\File(maxSize="31457280")
      */
@@ -46,10 +46,10 @@ class Imagen
     private $tamanio;
 
     /**
-     * @var string
-     * @ORM\Column(type="string")
+     * @var \DateTime
+     * @ORM\Column(type="datetime")
      */
-    private $tipoImagen;
+    private $ultimaModificacion;
 
     /**
      * @ORM\OneToOne(targetEntity=Recurso::class, cascade={"persist", "remove"})
@@ -94,6 +94,12 @@ class Imagen
     public function setImageFile(?File $imageFile): Imagen
     {
         $this->imageFile = $imageFile;
+
+        //Permite actualizar la imagen
+        if (null !== $imageFile) {
+            $this->ultimaModificacion = new \DateTime();
+        }
+
         return $this;
     }
 
@@ -124,30 +130,30 @@ class Imagen
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getUltimaModificacion(): ?\DateTime
+    {
+        return $this->ultimaModificacion;
+    }
+
+    /**
+     * @param \DateTime $ultimaModificacion
+     * @return Imagen
+     */
+    public function setUltimaModificacion(\DateTime $ultimaModificacion): Imagen
+    {
+        $this->ultimaModificacion = $ultimaModificacion;
+        return $this;
+    }
+
+    /**
      * @param int $tamanio
      * @return Imagen
      */
     public function setTamanio(int $tamanio): Imagen
     {
         $this->tamanio = $tamanio;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTipoImagen(): ?string
-    {
-        return $this->tipoImagen;
-    }
-
-    /**
-     * @param string $tipoImagen
-     * @return Imagen
-     */
-    public function setTipoImagen(string $tipoImagen): Imagen
-    {
-        $this->tipoImagen = $tipoImagen;
         return $this;
     }
 
