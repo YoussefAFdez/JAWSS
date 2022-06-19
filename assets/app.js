@@ -13,4 +13,10 @@ import './bootstrap';
 
 $(function() {
     $('audio').audioPlayer();
+    $('.botonEliminarToggle').click(function() {
+        $('#alert-additional-content-2').toggleClass('hidden');
+    });
 });
+
+
+

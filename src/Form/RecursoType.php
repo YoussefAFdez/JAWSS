@@ -28,6 +28,7 @@ class RecursoType extends AbstractType
             ])
             ->add('fichero', CheckboxType::class, [
                 'label' => 'Es fichero',
+                'required' => false,
             ])
             ->add('propietario', EntityType::class, [
                 'label' => 'Propietario',
@@ -37,11 +38,13 @@ class RecursoType extends AbstractType
                 'label' => 'Favorito',
                 'class' => Usuario::class,
                 'multiple' => true,
+                'required' => false,
             ])
             ->add('usuarios', EntityType::class, [
                 'label' => 'Usuarios',
                 'class' => Usuario::class,
                 'multiple' => true,
+                'required' => false,
             ])
         ;
     }
