@@ -3,9 +3,10 @@
 {% block title %}Nueva Imagen - {{ parent() }}{% endblock %}
 
 {% block contenido %}
-    <h1>Nueva Imagen</h1>
+    <h1 class="text-xl my-4 font-bold">Nueva Imagen</h1>
+
 
     {{ include('imagen/_form.html.twig') }}
 
-    <a href="{{ path('app_imagen_index') }}">Volver</a>
+    <a href="{{ path('app_imagen_index') }}" class="text-blue-600"><span class="fa-solid fa-arrow-left"></span> Volver</a>
 {% endblock %}

@@ -1,28 +1,48 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Imagen{% endblock %}
+{% block title %}Imagen - {{ parent() }}{% endblock %}
 
 {% block contenido %}
-    <h1>Imagen</h1>
 
-    <table class="table">
-        <tbody>
+    <a href="{{ vich_uploader_asset(imagen) }}" class="mt-3 block rounded-xl overflow-auto">
+        <img src="{{ vich_uploader_asset(imagen) }}" alt="{{ imagen.nombreImagen }}" class="rounded-xl hover:scale-125 transition-all duration-1000 ease-in-out" />
+    </a>
+
+    <div class="flex items-baseline">
+        <h1 class="text-xl my-4 font-bold mr-5">{{ imagen.recurso }}</h1>
+        <a class="text-blue-600 hover:underline" href="{{ vich_uploader_asset(imagen) }}" download><span class="fa-solid fa-download"></span> Descargar</a>
+    </div>
+
+    <div class="table-wrapper mb-4">
+        <table class="table">
+            <thead>
             <tr>
-                <th>Id</th>
-                <td>{{ imagen.id }}</td>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Extensión</th>
+                <th>Resolución</th>
+                <th>Tamaño (MB)</th>
+                <th>Propietario</th>
             </tr>
+            </thead>
+            <tbody>
             <tr>
-                <th>Resolucion</th>
+                <td class="table-enfasis">{{ imagen.recurso.nombre }}</td>
+                <td>{{ imagen.recurso.descripcion }}</td>
+                <td>{{ imagen.recurso.extension }}</td>
                 <td>{{ imagen.resolucion }}</td>
+                <td>{{ (imagen.tamanio / 1048576) | number_format(2, ',', '.') }} MB</td>
+                <td class="table-enfasis">
+                    <a class="table-link" href="{{ path('app_usuario_show', {'id': imagen.recurso.propietario.id}) }}">{{ imagen.recurso.propietario }}</a>
+                </td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 
-    <image src="{{ vich_uploader_asset(imagen) }}" alt="{{ imagen.nombreImagen }}"></image>
-
-    <a href="{{ path('app_imagen_index') }}">back to list</a>
-
-    <a href="{{ path('app_imagen_edit', {'id': imagen.id}) }}">edit</a>
-
-    {{ include('imagen/_delete_form.html.twig') }}
+    <div class="mb-8">
+        <a href="{{ path('app_imagen_index') }}" class="text-blue-600 hover:underline mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
+        <a href="{{ path('app_imagen_edit', {'id': imagen.id}) }}" class="text-blue-600 hover:underline mr-2"><span class="fa-solid fa-pen-to-square"></span> Editar</a>
+        {{ include('imagen/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

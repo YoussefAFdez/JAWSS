@@ -46,5 +46,5 @@
         label_class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
     }) }}
     <div class="mt-1 mb-4 text-sm text-gray-500 dark:text-gray-300" id="user_avatar_help">Selecciona una imagen. Formatos admitidos: jpg, png, gif.</div>
-    <button class="btn">{{ button_label|default('Guardar') }}</button>
+    <button class="text-blue-600 mb-2"><span class="fa-solid fa-floppy-disk"></span> {{ button_label|default('Guardar') }}</button>
 {{ form_end(form) }}
