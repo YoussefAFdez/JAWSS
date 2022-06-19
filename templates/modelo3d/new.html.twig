@@ -1,11 +1,11 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}New Modelo3D{% endblock %}
+{% block title %}Nuevo Modelo 3D - {{ parent() }}{% endblock %}
 
 {% block contenido %}
-    <h1>Create new Modelo3D</h1>
+    <h1 class="text-xl my-4 font-bold">Nuevo Modelo 3D</h1>
 
     {{ include('modelo3d/_form.html.twig') }}
 
-    <a href="{{ path('app_modelo3d_index') }}">back to list</a>
+    <a href="{{ path('app_modelo3d_index') }}" class="text-blue-600 mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
 {% endblock %}

@@ -1,13 +1,11 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Edit Modelo3D{% endblock %}
+{% block title %}Editar Modelo 3D - {{ parent() }}{% endblock %}
 
 {% block contenido %}
-    <h1>Edit Modelo3D</h1>
+    <h1 class="text-xl my-4 font-bold">Editando "{{ modelo3d.recurso }}"</h1>
 
-    {{ include('modelo3d/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_modelo3d_index') }}">back to list</a>
-
+    {{ include('modelo3d/_form.html.twig', {'button_label': 'Actualizar'}) }}
+    <a href="{{ path('app_modelo3d_index') }}" class="text-blue-600 mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
     {{ include('modelo3d/_delete_form.html.twig') }}
 {% endblock %}
