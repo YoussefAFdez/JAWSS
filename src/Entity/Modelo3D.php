@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Repository\Modelo3DRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=Modelo3DRepository::class)
+ * @Vich\Uploadable
  */
 class Modelo3D
 {
@@ -41,6 +44,24 @@ class Modelo3D
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $url;
+
+    /**
+     * @Vich\UploadableField(mapping="modelo3d", fileNameProperty="nombreModelo", size="tamanio")
+     * @var File|Null
+     */
+    private $modeloFile;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $nombreModelo;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private $tamanio;
 
     /**
      * @ORM\OneToOne(targetEntity=Recurso::class, cascade={"persist", "remove"})
@@ -111,6 +132,62 @@ class Modelo3D
 
         return $this;
     }
+
+    /**
+     * @return File|Null
+     */
+    public function getModeloFile(): ?File
+    {
+        return $this->modeloFile;
+    }
+
+    /**
+     * @param File|Null $modeloFile
+     * @return Modelo3D
+     */
+    public function setModeloFile(?File $modeloFile): Modelo3D
+    {
+        $this->modeloFile = $modeloFile;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombreModelo(): ?string
+    {
+        return $this->nombreModelo;
+    }
+
+    /**
+     * @param string $nombreModelo
+     * @return Modelo3D
+     */
+    public function setNombreModelo(string $nombreModelo): Modelo3D
+    {
+        $this->nombreModelo = $nombreModelo;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTamanio(): ?int
+    {
+        return $this->tamanio;
+    }
+
+    /**
+     * @param int $tamanio
+     * @return Modelo3D
+     */
+    public function setTamanio(int $tamanio): Modelo3D
+    {
+        $this->tamanio = $tamanio;
+        return $this;
+    }
+
+
 
     public function getRecurso(): ?Recurso
     {
