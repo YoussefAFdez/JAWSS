@@ -26,10 +26,6 @@ class RecursoType extends AbstractType
             ->add('extension', TextType::class, [
                 'label' => 'Extensión:',
             ])
-            ->add('propietario', EntityType::class, [
-                'label' => 'Propietario',
-                'class' => Usuario::class,
-            ])
             ->add('favorito', EntityType::class, [
                 'label' => 'Favorito',
                 'class' => Usuario::class,

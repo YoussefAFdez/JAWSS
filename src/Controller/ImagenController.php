@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Imagen;
 use App\Form\ImagenType;
 use App\Repository\ImagenRepository;
+use App\Repository\UsuarioRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ class ImagenController extends AbstractController
     }
 
     #[Route('/new', name: 'app_imagen_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ImagenRepository $imagenRepository): Response
+    public function new(Request $request, ImagenRepository $imagenRepository, UsuarioRepository $usuarioRepository): Response
     {
         $imagen = new Imagen();
         $form = $this->createForm(ImagenType::class, $imagen);
@@ -33,11 +34,13 @@ class ImagenController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $imagen->getRecurso()->setFichero(false);
+                $imagen->getRecurso()->setPropietario($this->getUser());
                 $imagenRepository->add($imagen, true);
 
                 //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario
-                $propietario = $imagen->getRecurso()->getPropietario();
-                $propietario->setEspacioUtilizado($propietario->getEspacioUtilizado() + $imagen->getTamanio());
+                $usuario = $this->getUser();
+                $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() + $imagen->getTamanio());
+                $usuarioRepository->add($usuario, true);
 
                 $this->addFlash('exito', '¡Se ha subido la imagen ' . $imagen->getRecurso()->getNombre() . ' con éxito!');
             } catch (\Exception $e) {
