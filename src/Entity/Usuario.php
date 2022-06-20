@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\JoinColumn;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -16,6 +17,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass=UsuarioRepository::class)
  * @method string getUserIdentifier()
  */
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
 {
     /**
@@ -24,121 +26,105 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
-
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $nombre;
-
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $apellidos;
-
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $nombreUsuario;
-
     /**
      * @var string
      * @ORM\Column(type="string")
      */
     private $clave;
-
     /**
      * @var string
      * @ORM\Column(type="string", unique=true)
      */
     private $email;
-
     /**
      * @var bool
      * @ORM\Column(type="boolean")
      */
     private $administrador;
-
     /**
      * @var string
      * @ORM\Column(type="bigint")
      */
     private $espacioUtilizado;
-
     /**
      * @ORM\ManyToOne(targetEntity=Tier::class, inversedBy="usuarios")
      * @ORM\JoinColumn(nullable=false)
      */
     private $tier;
-
     /**
      * @ORM\OneToMany(targetEntity=Recurso::class, mappedBy="propietario")
      */
     private $recursos;
-
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Recurso", mappedBy="usuarios")
      * @JoinTable(name="acceso")
      */
     private $recursosAccesibles;
-
     /**
      * @ORM\ManyToMany(targetEntity=Recurso::class, mappedBy="favorito")
      * @JoinTable(name="favoritos")
      */
     private $favoritos;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVerified = false;
     public function __construct()
     {
         $this->recursos = new ArrayCollection();
         $this->favoritos = new ArrayCollection();
     }
-
     public function __toString()
     {
         return $this->getNombreUsuario();
     }
-
     public function getId(): ?int
     {
         return $this->id;
     }
-
     public function getNombre(): ?string
     {
         return $this->nombre;
     }
-
     public function setNombre(string $nombre): self
     {
         $this->nombre = $nombre;
 
         return $this;
     }
-
     public function getApellidos(): ?string
     {
         return $this->apellidos;
     }
-
     public function setApellidos(string $apellidos): self
     {
         $this->apellidos = $apellidos;
 
         return $this;
     }
-
     public function getNombreUsuario(): ?string
     {
         return $this->nombreUsuario;
     }
-
     public function setNombreUsuario(string $nombreUsuario): self
     {
         $this->nombreUsuario = $nombreUsuario;
 
         return $this;
     }
-
     /**
      * @return string
      */
@@ -146,7 +132,6 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
     {
         return $this->clave;
     }
-
     /**
      * @param string $clave
      * @return Usuario
@@ -156,7 +141,6 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
         $this->clave = $clave;
         return $this;
     }
-
     /**
      * @return string
      */
@@ -164,7 +148,6 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
     {
         return $this->email;
     }
-
     /**
      * @param string $email
      * @return Usuario
@@ -174,7 +157,6 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
         $this->email = $email;
         return $this;
     }
-
     /**
      * @return bool
      */
@@ -182,7 +164,6 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
     {
         return $this->administrador;
     }
-
     /**
      * @param bool $administrador
      * @return Usuario
@@ -192,7 +173,6 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
         $this->administrador = $administrador;
         return $this;
     }
-
     /**
      * @return string
      */
@@ -200,7 +180,6 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
     {
         return $this->espacioUtilizado;
     }
-
     /**
      * @param string $espacioUtilizado
      * @return Usuario
@@ -210,19 +189,16 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
         $this->espacioUtilizado = $espacioUtilizado;
         return $this;
     }
-
     public function getTier(): ?Tier
     {
         return $this->tier;
     }
-
     public function setTier(?Tier $tier): self
     {
         $this->tier = $tier;
 
         return $this;
     }
-
     /**
      * @return Collection<int, Recurso>
      */
@@ -230,7 +206,6 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
     {
         return $this->recursos;
     }
-
     public function addRecurso(Recurso $recurso): self
     {
         if (!$this->recursos->contains($recurso)) {
@@ -240,7 +215,6 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
 
         return $this;
     }
-
     public function removeRecurso(Recurso $recurso): self
     {
         if ($this->recursos->removeElement($recurso)) {
@@ -252,7 +226,6 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
 
         return $this;
     }
-
     /**
      * @return mixed
      */
@@ -260,7 +233,6 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
     {
         return $this->recursosAccesibles;
     }
-
     /**
      * @param mixed $recursosAccesibles
      * @return Usuario
@@ -270,7 +242,6 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
         $this->recursosAccesibles = $recursosAccesibles;
         return $this;
     }
-
     /**
      * @return Collection<int, Recurso>
      */
@@ -278,7 +249,6 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
     {
         return $this->favoritos;
     }
-
     public function addFavorito(Recurso $favorito): self
     {
         if (!$this->favoritos->contains($favorito)) {
@@ -288,7 +258,6 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
 
         return $this;
     }
-
     public function removeFavorito(Recurso $favorito): self
     {
         if ($this->favoritos->removeElement($favorito)) {
@@ -297,7 +266,6 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
 
         return $this;
     }
-
     public function getRoles()
     {
         $roles = [];
@@ -307,27 +275,34 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
 
         return $roles;
     }
-
     public function getPassword(): ?string
     {
         return $this->getClave();
     }
-
     public function getSalt()
     {
         return null;
     }
-
     public function eraseCredentials()
     {
     }
-
     public function getUsername()
     {
-        return $this->getNombreUsuario();
+        return $this->getEmail();
     }
-
     public function __call(string $name, array $arguments)
     {
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
     }
 }
