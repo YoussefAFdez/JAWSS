@@ -9,13 +9,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UsuarioRepository::class)
  * @method string getUserIdentifier()
  */
-class Usuario implements UserPasswordHasherInterface, UserInterface
+class Usuario implements PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
@@ -307,7 +308,7 @@ class Usuario implements UserPasswordHasherInterface, UserInterface
         return $roles;
     }
 
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->getClave();
     }

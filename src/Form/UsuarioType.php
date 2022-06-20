@@ -10,9 +10,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 class UsuarioType extends AbstractType
@@ -32,8 +34,22 @@ class UsuarioType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Correo Electrónico:'
             ])
-            ->add('clave', PasswordType::class, [
-                'label' => 'Contraseña:'
+            ->add('clave', RepeatedType::class, [
+                'label' => 'Contraseña',
+                'type' => PasswordType::class,
+                'mapped' => false,
+                'invalid_message' => 'Las contraseñas no coinciden',
+                'first_options' => [
+                    'label' => 'Contraseña: ',
+                    'constraints' => [
+                        new NotBlank([
+                            'groups' => ['password']
+                        ])
+                    ]
+                ],
+                'second_options' => [
+                    'label' => 'Repite contraseña: '
+                ]
             ])
             ->add('tier', EntityType::class, [
                 'label' => 'Tier:',
