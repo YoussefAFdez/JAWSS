@@ -4,13 +4,12 @@ namespace App\Form;
 
 use App\Entity\Usuario;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\IsTrue;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationFormType extends AbstractType
@@ -19,39 +18,52 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('nombre', TextType::class, [
-                'label' => 'Nombre:'
+                'label' => 'Nombre:',
+                'attr' => array(
+                    'placeholder' => 'Nombre'
+                ),
             ])
             ->add('apellidos', TextType::class, [
-                'label' => 'Apellidos:'
+                'label' => 'Apellidos:',
+                'attr' => array(
+                    'placeholder' => 'Apellidos'
+                ),
             ])
             ->add('nombreUsuario', TextType::class, [
-                'label' => 'Nombre de Usuario:'
+                'label' => 'Usuario:',
+                'attr' => array(
+                    'placeholder' => 'Usuario'
+                ),
             ])
-            ->add('email')
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
+            ->add('email', EmailType::class, [
+                'label' => 'Correo Electrónico: ',
+                'attr' => array(
+                    'placeholder' => 'nombre@correo.com'
+                ),
             ])
-            ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
+            ->add('clave', RepeatedType::class, [
+                'label' => 'Contraseña',
+                'type' => PasswordType::class,
+
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
+                'invalid_message' => 'Las contraseñas no coinciden',
+                'first_options' => [
+                    'label' => 'Contraseña: ',
+                    'constraints' => [
+                        new NotBlank([
+                            'groups' => ['password']
+                        ])
+                    ],
+                    'attr' => array(
+                        'placeholder' => '••••••••'
+                    ),
                 ],
+                'second_options' => [
+                    'label' => 'Repite contraseña: ',
+                    'attr' => array(
+                        'placeholder' => '••••••••'
+                    ),
+                ]
             ])
         ;
     }

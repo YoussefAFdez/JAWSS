@@ -35,18 +35,23 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
-            $user->setClave(
-            $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-            $user->setTier($tierRepository->find(1));
-            $user->setAdministrador(false);
-            $user->setEspacioUtilizado(0);
+            try {
+                $user->setClave(
+                    $userPasswordHasher->hashPassword(
+                        $user, $form->get('clave')->get('first')->getData()
+                    )
+                );
+                $user->setTier($tierRepository->find(1));
+                $user->setAdministrador(false);
+                $user->setEspacioUtilizado(0);
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                $this->addFlash('exito', 'Se ha registrado su cuenta correctamente.');
+            } catch (\Exception $e) {
+
+            }
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
@@ -61,10 +66,8 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('index');
         }
 
-        $this->addFlash('exito', 'Se ha registrado su cuenta correctamente.');
-
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 
@@ -82,7 +85,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash('exito', 'Se ha verificado tu cuenta de correo electrónico');
 
         return $this->redirectToRoute('login');
     }

@@ -3,19 +3,61 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
 
-    <h1>Register</h1>
+    <div class="container mx-auto mt-4">
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        <div class="flex justify-center w-full items-center">
+            <div class="flex justify-center w-20 h-20 mr-4">
+                <img src="{{ asset('images/jawws_logo.png') }}" alt="Website Logo" class="text-center">
+            </div>
+            <h1 class="text-3xl mb-3 text-center">Formulario de Registro</h1>
+        </div>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+        <div class="max-w-4xl mx-auto">
+            <div class="mx-auto bg-white shadow-md border border-gray-200 rounded-lg max-w-xl p-4 sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700">
+                {{ form_start(form) }}
+                    <div class="flex justify-between mb-4">
+                        {{ form_row(form.nombre, {
+                            row_class: 'w-full mr-4',
+                            widget_class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                            label_class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                        }) }}
+                        {{ form_row(form.nombreUsuario, {
+                            row_class: 'w-full ml-4',
+                            widget_class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                            label_class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                        }) }}
+                    </div>
+                    {{ form_row(form.apellidos, {
+                        row_class: 'mb-4',
+                        widget_class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                        label_class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                    }) }}
+                    {{ form_row(form.email, {
+                        row_class: 'mb-4',
+                        widget_class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                        label_class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                    }) }}
+                <div class="flex justify-between mb-4">
+                    {{ form_row(form.clave.first, {
+                        row_class: 'w-full mr-4',
+                        widget_class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                        label_class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                    }) }}
+                    {{ form_row(form.clave.second, {
+                        row_class: 'w-full ml-4',
+                        widget_class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                        label_class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                    }) }}
+                </div>
+
+
+                <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Registrarse</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
