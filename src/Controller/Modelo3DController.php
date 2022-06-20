@@ -30,6 +30,7 @@ class Modelo3DController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                $modelo3D->getRecurso()->setFichero(false);
                 $modelo3DRepository->add($modelo3D, true);
                 $this->addFlash('exito', '¡Se ha subido el objeto "' . $modelo3D->getRecurso()->getNombre() . '" con éxito!');
             } catch (\Exception $e) {

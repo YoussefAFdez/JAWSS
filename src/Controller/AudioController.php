@@ -30,6 +30,7 @@ class AudioController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                $audio->getRecurso()->setFichero(false);
                 $audioRepository->add($audio, true);
                 $this->addFlash('exito', '¡Se ha subido el audio ' . $audio->getRecurso()->getNombre() . ' con éxito!');
             } catch (\Exception $e) {

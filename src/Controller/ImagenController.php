@@ -30,6 +30,7 @@ class ImagenController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                $imagen->getRecurso()->setFichero(false);
                 $imagenRepository->add($imagen, true);
 
                 //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario

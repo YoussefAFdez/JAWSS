@@ -26,10 +26,6 @@ class RecursoType extends AbstractType
             ->add('extension', TextType::class, [
                 'label' => 'Extensión:',
             ])
-            ->add('fichero', CheckboxType::class, [
-                'label' => 'Es fichero',
-                'required' => false,
-            ])
             ->add('propietario', EntityType::class, [
                 'label' => 'Propietario',
                 'class' => Usuario::class,

@@ -30,6 +30,7 @@ class VideoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                $video->getRecurso()->setFichero(false);
                 $videoRepository->add($video, true);
                 $this->addFlash('exito', '¡Se ha subido el vídeo "' . $video->getRecurso()->getNombre() . '" con éxito!');
             } catch (\Exception $e) {

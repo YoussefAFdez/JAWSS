@@ -31,6 +31,7 @@ class RecursoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                $recurso->setFichero(true);
                 $recursoRepository->add($recurso, true);
                 $this->addFlash('exito', '¡Se ha subido el recurso ' . $recurso->getNombre() . ' con éxito!');
             } catch (\Exception $e) {
