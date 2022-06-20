@@ -35,9 +35,9 @@ class TierController extends AbstractController
 
                 $tierRepository->add($tier, true);
 
-                $this->addFlash('exito', '¡Se ha creado el tier "' . $tier->getNombre() . '" con éxito!');
+                $this->addFlash('exito', '¡Se ha creado el plan "' . $tier->getNombre() . '" con éxito!');
             } catch (\Exception $e) {
-                $this->addFlash('error', 'Ha ocurrido un error a la hora de crear el tier...');
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de crear el plan...');
             }
 
             return $this->redirectToRoute('app_tier_index', [], Response::HTTP_SEE_OTHER);
@@ -73,9 +73,9 @@ class TierController extends AbstractController
                 $tier->setAlmacenamiento(intval($almacenamiento) * 1048576);
 
                 $tierRepository->add($tier, true);
-                $this->addFlash('exito', '¡Se ha modificado el tier "' . $tier->getNombre() . '" con éxito!');
+                $this->addFlash('exito', '¡Se ha modificado el plan "' . $tier->getNombre() . '" con éxito!');
             } catch (\Exception $e) {
-                $this->addFlash('error', 'Ha ocurrido un error a la hora de modificar el tier...');
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de modificar el plan...');
             }
 
 
