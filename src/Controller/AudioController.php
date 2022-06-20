@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\Audio;
 use App\Form\AudioType;
 use App\Repository\AudioRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/audio')]
+#[Security("is_granted('ROLE_USER')")]
 class AudioController extends AbstractController
 {
     #[Route('/', name: 'app_audio_index', methods: ['GET'])]

@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\Modelo3D;
 use App\Form\Modelo3DType;
 use App\Repository\Modelo3DRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/modelo3d')]
+#[Security("is_granted('ROLE_USER')")]
 class Modelo3DController extends AbstractController
 {
     #[Route('/', name: 'app_modelo3d_index', methods: ['GET'])]

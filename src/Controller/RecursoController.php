@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Recurso;
 use App\Form\RecursoType;
 use App\Repository\RecursoRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/recurso')]
+#[Security("is_granted('ROLE_USER')")]
 class RecursoController extends AbstractController
 {
     #[Route('/', name: 'app_recurso_index', methods: ['GET'])]

@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\Tier;
 use App\Form\TierType;
 use App\Repository\TierRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/tier')]
+#[Security("is_granted('ROLE_ADMIN')")]
 class TierController extends AbstractController
 {
     #[Route('/', name: 'app_tier_index', methods: ['GET'])]
