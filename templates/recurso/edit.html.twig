@@ -3,13 +3,11 @@
 {% block title %}Editar Recurso - {{ parent() }}{% endblock %}
 
 {% block contenido %}
-    <h1 class="text-xl my-4">Editando "<span class="font-bold">{{ recurso.nombre }}</span>"</h1>
+    <h1 class="text-xl my-4 font-bold">Editando "{{ recurso.nombre }}"</h1>
 
     {{ include('recurso/_form.html.twig', {'button_label': 'Guardar'}) }}
-    {{ include('recurso/_delete_form.html.twig') }}
-
-
     <div class="mb-4">
-        <a href="{{ path('app_recurso_index') }}" class="text-blue-600"><span class="fa-solid fa-arrow-left"></span> Volver al listado de recursos</a>
+        <a href="{{ path('app_recurso_index') }}" class="text-blue-600 mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
+        {{ include('recurso/_delete_form.html.twig') }}
     </div>
 {% endblock %}

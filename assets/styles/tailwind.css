@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .table-wrapper {
-    @apply relative overflow-x-auto shadow-md sm:rounded-lg;
+    @apply relative overflow-x-auto shadow-md sm:rounded-lg mb-4;
 }
 
 .table {
