@@ -13,7 +13,7 @@
             <a href="{{ path('app_imagen_show', {'id': imagen.id}) }}">
                 <div class="relative w-56 h-56 rounded-lg overflow-hidden flex">
                     <img src="{{ vich_uploader_asset(imagen) }}" alt="{{ imagen.nombreImagen }}" class="object-cover w-full h-full" />
-                    <div class="flex pl-2 items-end opacity-0 hover:opacity-100 transition-opacity duration-300 hover:backdrop-blur-sm hover:bg-black/40 absolute w-full h-full py-2.5 bottom-0 inset-x-0 text-white text-xs leading-4">
+                    <div class="flex pl-2 items-end opacity-0 hover:opacity-100 transition-opacity duration-300 hover:backdrop-blur-sm rounded-xl hover:bg-black/40 absolute w-full h-full py-2.5 bottom-0 inset-x-0 text-white text-xs leading-4">
                         <div>
                             <h2 class="ml-3 text-sm font-semibold text-white">{{ imagen.recurso }}</h2>
                             <h3 class="ml-3 text-xs font-medium text-white">{{ imagen.recurso.propietario }}</h3>
