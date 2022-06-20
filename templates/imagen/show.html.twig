@@ -4,8 +4,8 @@
 
 {% block contenido %}
 
-    <a href="{{ vich_uploader_asset(imagen) }}" class="mt-3 block rounded-xl overflow-auto">
-        <img src="{{ vich_uploader_asset(imagen) }}" alt="{{ imagen.nombreImagen }}" class="rounded-xl hover:scale-125 transition-all duration-1000 ease-in-out" />
+    <a href="{{ vich_uploader_asset(imagen) }}" class="mt-3 block rounded-xl overflow-auto shadow-lg hover:shadow-blue-200">
+        <img src="{{ vich_uploader_asset(imagen) }}" alt="{{ imagen.nombreImagen }}" class="rounded-xl hover:scale-105 transition-transform duration-500" />
     </a>
 
     <div class="flex items-baseline">
