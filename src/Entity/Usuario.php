@@ -8,11 +8,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\JoinColumn;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UsuarioRepository::class)
+ * @method string getUserIdentifier()
  */
-class Usuario
+class Usuario implements UserPasswordHasherInterface, UserInterface
 {
     /**
      * @ORM\Id
@@ -32,7 +35,7 @@ class Usuario
     private $apellidos;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $nombreUsuario;
 
@@ -292,5 +295,38 @@ class Usuario
         }
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+        $roles = [];
+        $roles[] = 'ROLE_USER';
+
+        if ($this->isAdministrador()) $roles[] = 'ROLE_ADMIN';
+
+        return $roles;
+    }
+
+    public function getPassword()
+    {
+        return $this->getClave();
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getUsername()
+    {
+        return $this->getNombreUsuario();
+    }
+
+    public function __call(string $name, array $arguments)
+    {
     }
 }
