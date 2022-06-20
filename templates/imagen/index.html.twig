@@ -8,10 +8,10 @@
         <a href="{{ path('app_imagen_new') }}" class="text-blue-600 hover:underline"><span class="fa-solid fa-plus text-sm"></span> Nueva</a>
     </div>
 
-    <div class="flex gap-2">
+    <div class="flex gap-2 flex-wrap">
         {% for imagen in imagenes %}
             <a href="{{ path('app_imagen_show', {'id': imagen.id}) }}">
-                <div class="relative w-56 h-56 rounded-lg overflow-hidden flex">
+                <div class="relative h-44 rounded-lg overflow-hidden flex">
                     <img src="{{ vich_uploader_asset(imagen) }}" alt="{{ imagen.nombreImagen }}" class="object-cover w-full h-full" />
                     <div class="flex pl-2 items-end opacity-0 hover:opacity-100 transition-opacity duration-300 hover:backdrop-blur-sm rounded-xl hover:bg-black/40 absolute w-full h-full py-2.5 bottom-0 inset-x-0 text-white text-xs leading-4">
                         <div>
