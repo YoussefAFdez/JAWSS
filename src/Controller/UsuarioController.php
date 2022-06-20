@@ -99,11 +99,13 @@ class UsuarioController extends AbstractController
 
     #[Route('/query/usuarios', name: 'api_usuario_query', methods: ['GET'])]
     public function apiPersonQuery(
+        Request $request,
         UsuarioRepository $usuarioRepository,
     ): Response
     {
+        $busquedaQuery = $request->get('q');
 
-        $usuarios = $usuarioRepository->findAll();
+        $usuarios = $usuarioRepository->findByBusqueda($busquedaQuery);
 
         $data = [];
         foreach ($usuarios as $usuario) {

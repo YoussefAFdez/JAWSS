@@ -63,4 +63,13 @@ class UsuarioRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findByBusqueda(mixed $busquedaQuery)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.nombreUsuario LIKE :param')
+            ->setParameter('param', '%' . $busquedaQuery . '%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }
