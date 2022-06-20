@@ -29,7 +29,12 @@ class VideoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $videoRepository->add($video, true);
+            try {
+                $videoRepository->add($video, true);
+                $this->addFlash('exito', '¡Se ha subido el vídeo "' . $video->getRecurso()->getNombre() . '" con éxito!');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de subir el vídeo...');
+            }
 
             return $this->redirectToRoute('app_video_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -55,7 +60,12 @@ class VideoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $videoRepository->add($video, true);
+            try {
+                $videoRepository->add($video, true);
+                $this->addFlash('exito', '¡Se ha modificado el vídeo "' . $video->getRecurso()->getNombre() . '" con éxito!');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de modificar el vídeo...');
+            }
 
             return $this->redirectToRoute('app_video_index', [], Response::HTTP_SEE_OTHER);
         }

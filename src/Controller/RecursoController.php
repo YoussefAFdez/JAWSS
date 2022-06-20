@@ -30,7 +30,12 @@ class RecursoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $recursoRepository->add($recurso, true);
+            try {
+                $recursoRepository->add($recurso, true);
+                $this->addFlash('exito', '¡Se ha subido el recurso ' . $recurso->getNombre() . ' con éxito!');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de subir el recurso...');
+            }
 
             return $this->redirectToRoute('app_recurso_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -56,7 +61,12 @@ class RecursoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $recursoRepository->add($recurso, true);
+            try {
+                $recursoRepository->add($recurso, true);
+                $this->addFlash('exito', '¡Se ha modificado el recurso "' . $recurso->getNombre() . '" con éxito!');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de modificar el recurso...');
+            }
 
             return $this->redirectToRoute('app_recurso_index', [], Response::HTTP_SEE_OTHER);
         }

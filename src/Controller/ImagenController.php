@@ -29,11 +29,17 @@ class ImagenController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $imagenRepository->add($imagen, true);
+            try {
+                $imagenRepository->add($imagen, true);
 
-            //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario
-            $propietario = $imagen->getRecurso()->getPropietario();
-            $propietario->setEspacioUtilizado($propietario->getEspacioUtilizado() + $imagen->getTamanio());
+                //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario
+                $propietario = $imagen->getRecurso()->getPropietario();
+                $propietario->setEspacioUtilizado($propietario->getEspacioUtilizado() + $imagen->getTamanio());
+
+                $this->addFlash('exito', '¡Se ha subido la imagen ' . $imagen->getRecurso()->getNombre() . ' con éxito!');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de subir la imagen...');
+            }
 
             return $this->redirectToRoute('app_imagen_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -62,15 +68,17 @@ class ImagenController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $imagenRepository->add($imagen, true);
 
-            $imagenRepository->add($imagen, true);
+                //Actualizamos el espacio utilizado por el propietario
+                $propietario = $imagen->getRecurso()->getPropietario();
+                $propietario->setEspacioUtilizado($propietario->getEspacioUtilizado() - $tamanioPrevio + $imagen->getTamanio());
 
-            //Actualizamos el espacio utilizado por el propietario
-
-            $propietario = $imagen->getRecurso()->getPropietario();
-
-
-            $propietario->setEspacioUtilizado($propietario->getEspacioUtilizado() - $tamanioPrevio + $imagen->getTamanio());
+                $this->addFlash('exito', '¡Se ha modificado la imagen "' . $imagen->getRecurso()->getNombre() . '" con éxito!');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de modificar la imagen...');
+            }
 
             return $this->redirectToRoute('app_imagen_index', [], Response::HTTP_SEE_OTHER);
         }

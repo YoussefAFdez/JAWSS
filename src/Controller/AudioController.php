@@ -29,7 +29,13 @@ class AudioController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $audioRepository->add($audio, true);
+            try {
+                $audioRepository->add($audio, true);
+                $this->addFlash('exito', '¡Se ha subido el audio ' . $audio->getRecurso()->getNombre() . ' con éxito!');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de subir el audio...');
+
+            }
 
             return $this->redirectToRoute('app_audio_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -55,7 +61,13 @@ class AudioController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $audioRepository->add($audio, true);
+            try {
+                $audioRepository->add($audio, true);
+                $this->addFlash('exito', '¡Se ha modificado el audio "' . $audio->getRecurso()->getNombre() . '" con éxito!');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de modificar el audio...');
+
+            }
 
             return $this->redirectToRoute('app_audio_index', [], Response::HTTP_SEE_OTHER);
         }

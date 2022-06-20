@@ -29,7 +29,12 @@ class Modelo3DController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $modelo3DRepository->add($modelo3D, true);
+            try {
+                $modelo3DRepository->add($modelo3D, true);
+                $this->addFlash('exito', '¡Se ha subido el objeto "' . $modelo3D->getRecurso()->getNombre() . '" con éxito!');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de subir el objeto...');
+            }
 
             return $this->redirectToRoute('app_modelo3d_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -55,7 +60,12 @@ class Modelo3DController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $modelo3DRepository->add($modelo3D, true);
+            try {
+                $modelo3DRepository->add($modelo3D, true);
+                $this->addFlash('exito', '¡Se ha modificado el objeto "' . $modelo3D->getRecurso()->getNombre() . '" con éxito!');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de modificar el objeto...');
+            }
 
             return $this->redirectToRoute('app_modelo3d_index', [], Response::HTTP_SEE_OTHER);
         }

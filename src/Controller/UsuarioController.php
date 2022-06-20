@@ -30,9 +30,14 @@ class UsuarioController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //Inicializamos el espacio utilizado por el usuario a 0
-            $usuario->setEspacioUtilizado(0);
-            $usuarioRepository->add($usuario, true);
+            try {
+                //Inicializamos el espacio utilizado por el usuario a 0
+                $usuario->setEspacioUtilizado(0);
+                $usuarioRepository->add($usuario, true);
+                $this->addFlash('exito', '¡Se ha creado el usuario "' . $usuario->getNombreUsuario() . '" con éxito!');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de crear el usuario...');
+            }
 
             return $this->redirectToRoute('app_usuario_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -58,7 +63,12 @@ class UsuarioController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $usuarioRepository->add($usuario, true);
+            try {
+                $usuarioRepository->add($usuario, true);
+                $this->addFlash('exito', '¡Se ha modificado el usuario "' . $usuario->getNombreUsuario() . '" con éxito!');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de modificar el usuario...');
+            }
 
             return $this->redirectToRoute('app_usuario_index', [], Response::HTTP_SEE_OTHER);
         }

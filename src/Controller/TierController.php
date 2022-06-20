@@ -29,11 +29,16 @@ class TierController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $almacenamiento = $form->get('almacenamiento')->getData();
+                $tier->setAlmacenamiento(intval($almacenamiento) * 1048576);
 
-            $almacenamiento = $form->get('almacenamiento')->getData();
-            $tier->setAlmacenamiento(intval($almacenamiento) * 1048576);
+                $tierRepository->add($tier, true);
 
-            $tierRepository->add($tier, true);
+                $this->addFlash('exito', '¡Se ha creado el tier "' . $tier->getNombre() . '" con éxito!');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de crear el tier...');
+            }
 
             return $this->redirectToRoute('app_tier_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -61,10 +66,16 @@ class TierController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $almacenamiento = $form->get('almacenamiento')->getData();
-            $tier->setAlmacenamiento(intval($almacenamiento) * 1048576);
+            try{
+                $almacenamiento = $form->get('almacenamiento')->getData();
+                $tier->setAlmacenamiento(intval($almacenamiento) * 1048576);
 
-            $tierRepository->add($tier, true);
+                $tierRepository->add($tier, true);
+                $this->addFlash('exito', '¡Se ha modificado el tier "' . $tier->getNombre() . '" con éxito!');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de modificar el tier...');
+            }
+
 
             return $this->redirectToRoute('app_tier_index', [], Response::HTTP_SEE_OTHER);
         }
