@@ -61,6 +61,8 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('index');
         }
 
+        $this->addFlash('exito', 'Se ha registrado su cuenta correctamente.');
+
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
