@@ -20,6 +20,7 @@ class TierType extends AbstractType
             ->add('almacenamiento', NumberType::class, [
                 'label' => 'Almacenamiento (En MB):',
                 'mapped' => 'false',
+                'data' => $options['tamanio'],
             ])
         ;
     }
@@ -28,6 +29,7 @@ class TierType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Tier::class,
+            'tamanio' => 0,
         ]);
     }
 }

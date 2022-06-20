@@ -61,7 +61,9 @@ class TierController extends AbstractController
     #[Route('/{id}/edit', name: 'app_tier_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Tier $tier, TierRepository $tierRepository): Response
     {
-        $form = $this->createForm(TierType::class, $tier);
+        $form = $this->createForm(TierType::class, $tier, [
+            'tamanio' => $tier->getAlmacenamiento() / 1048576,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
