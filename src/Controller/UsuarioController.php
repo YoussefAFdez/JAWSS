@@ -82,8 +82,16 @@ class UsuarioController extends AbstractController
     #[Route('/{id}', name: 'app_usuario_delete', methods: ['POST'])]
     public function delete(Request $request, Usuario $usuario, UsuarioRepository $usuarioRepository): Response
     {
+        $nombreUsuario = $usuario->getNombreUsuario();
+
         if ($this->isCsrfTokenValid('delete'.$usuario->getId(), $request->request->get('_token'))) {
-            $usuarioRepository->remove($usuario, true);
+            try {
+                $usuarioRepository->remove($usuario, true);
+                $this->addFlash('exito', 'Se ha eliminado con éxito al usuario "' . $nombreUsuario . '"');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de eliminar al usuario "' . $nombreUsuario . '"');
+            }
+
         }
 
         return $this->redirectToRoute('app_usuario_index', [], Response::HTTP_SEE_OTHER);

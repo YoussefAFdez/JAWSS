@@ -1,11 +1,11 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}New Usuario{% endblock %}
+{% block title %}Nuevo Usuario - {{ parent() }}{% endblock %}
 
 {% block contenido %}
-    <h1>Create new Usuario</h1>
+    <h1 class="text-xl my-4 font-bold">Nuevo Usuario</h1>
 
     {{ include('usuario/_form.html.twig') }}
 
-    <a href="{{ path('app_usuario_index') }}">back to list</a>
+    <a href="{{ path('app_usuario_index') }}" class="text-blue-600 mr-2 block mb-4"><span class="fa-solid fa-arrow-left"></span> Volver</a>
 {% endblock %}

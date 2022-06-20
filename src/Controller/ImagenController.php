@@ -94,7 +94,12 @@ class ImagenController extends AbstractController
     public function delete(Request $request, Imagen $imagen, ImagenRepository $imagenRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$imagen->getId(), $request->request->get('_token'))) {
-            $imagenRepository->remove($imagen, true);
+            try {
+                $imagenRepository->remove($imagen, true);
+
+            } catch (\Exception $e) {
+
+            }
         }
 
         return $this->redirectToRoute('app_imagen_index', [], Response::HTTP_SEE_OTHER);

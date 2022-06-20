@@ -6,7 +6,9 @@
     <h1 class="text-xl my-4 font-bold">Editando "{{ audio.recurso }}"</h1>
 
     {{ include('audio/_form.html.twig', {'button_label': 'Actualizar'}) }}
-    <a href="{{ path('app_audio_index') }}" class="text-blue-600 mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
-    {{ include('audio/_delete_form.html.twig') }}
+    <div class="mb-4">
+        <a href="{{ path('app_audio_index') }}" class="text-blue-600 mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
+        {{ include('audio/_delete_form.html.twig') }}
+    </div>
 
 {% endblock %}

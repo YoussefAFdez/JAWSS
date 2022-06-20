@@ -5,7 +5,7 @@
 {% block contenido %}
     <h1>Usuario</h1>
 
-    <table class="table">
+    <table class="table mb-4">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -26,9 +26,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_usuario_index') }}">back to list</a>
-
-    <a href="{{ path('app_usuario_edit', {'id': usuario.id}) }}">edit</a>
-
-    {{ include('usuario/_delete_form.html.twig') }}
+    <div class="mb-8">
+        <a href="{{ path('app_usuario_index') }}" class="text-blue-600 hover:underline mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
+        <a href="{{ path('app_usuario_edit', {'id': usuario.id}) }}" class="text-blue-600 hover:underline mr-2"><span class="fa-solid fa-pen-to-square"></span> Editar</a>
+        {{ include('usuario/_delete_form.html.twig') }}
+    </div>
 {% endblock %}
