@@ -8,11 +8,10 @@
         <a href="{{ path('app_video_new') }}" class="text-blue-600 hover:underline"><span class="fa-solid fa-plus text-sm"></span> Nuevo</a>
     </div>
 
-
-    <div class="flex gap-2">
+    <div class="flex gap-2 flex-wrap">
         {% for video in videos %}
             <a href="{{ path('app_video_show', {'id': video.id}) }}">
-                <div class="relative w-64 aspect-video rounded-lg overflow-hidden flex bg-black">
+                <div class="relative h-48 rounded-lg overflow-hidden flex bg-black">
                     <video class="w-full">
                         <source src="{{ vich_uploader_asset(video) }}">
                     </video>
