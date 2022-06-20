@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass=UsuarioRepository::class)
  * @method string getUserIdentifier()
  */
-class Usuario implements PasswordAuthenticatedUserInterface
+class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
 {
     /**
      * @ORM\Id

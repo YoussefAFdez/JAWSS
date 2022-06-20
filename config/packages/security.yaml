@@ -8,7 +8,7 @@ security:
         usuarios_db:
             entity:
                 class: App\Entity\Usuario
-                property: nombreUsuario
+                property: email
     role_hierarchy:
         ROLE_OWNER: ROLE_ADMIN
         ROLE_ADMIN: ROLE_USER
@@ -19,6 +19,11 @@ security:
         main:
             lazy: true
             provider: usuarios_db
+            form_login:
+                login_path: login
+                check_path: login
+            logout:
+                path: logout
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
