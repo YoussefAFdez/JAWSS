@@ -39,15 +39,6 @@ class UsuarioType extends AbstractType
                 'label' => 'Tier:',
                 'class' => Tier::class,
             ])
-            ->add('recursosAccesibles', Select2EntityType::class, [
-                'label' => 'Recursos Accesibles por la Persona:',
-                'multiple' => true,
-                'text_property' => 'nombreUsuario',
-                'class' => Recurso::class,
-                'minimum_input_length' => 2,
-                'required' => false,
-                'remote_route' => 'api_recurso_query'
-            ])
             ->add('administrador', CheckboxType::class, [
                 'label' => 'Administrador',
                 'required' => false,
