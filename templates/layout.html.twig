@@ -73,10 +73,10 @@
                         </div>
                         <ul class="py-1" aria-labelledby="dropdown">
                             <li>
-                                <a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Ajustes</a>
+                                <a href="{{ path('app_usuario_edit', {'id': app.user.id}) }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Ajustes</a>
                             </li>
                             <li>
-                                <a href="{{ path('logout') }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Cerrar Sesión</a>
+                                <a href="{{ path('app_logout') }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Cerrar Sesión</a>
                             </li>
                         </ul>
                     </div>
@@ -87,7 +87,10 @@
                         </div>
                         <ul class="py-1" aria-labelledby="dropdown">
                             <li>
-                                <a href="{{ path('login') }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Iniciar Sesión</a>
+                                <a href="{{ path('app_login') }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Iniciar Sesión</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('app_register') }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Registrarse</a>
                             </li>
                         </ul>
                     </div>
