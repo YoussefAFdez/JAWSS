@@ -41,7 +41,7 @@
         <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
             <div class="flex gap-2 flex-wrap" id="1" role="tabpanel" aria-labelledby="mis-imagenes-tab">
                 {% for index, imagen in imagenesCompartidas %}
-                    <a href="{{ path('app_imagen_show', {'id': imagen[0].id}) }}">
+                    <a href="{{ path('app_imagen_show_guest', {'id': imagen[0].id}) }}">
                         <div class="relative h-44 rounded-lg overflow-hidden flex">
                             <img src="{{ vich_uploader_asset(imagen[0]) }}" alt="{{ imagen[0].nombreImagen }}" class="object-cover w-full h-full" />
                             <div class="flex pl-2 items-end opacity-0 hover:opacity-100 transition-opacity duration-300 hover:backdrop-blur-sm rounded-xl hover:bg-black/40 absolute w-full h-full py-2.5 bottom-0 inset-x-0 text-white text-xs leading-4">

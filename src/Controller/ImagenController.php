@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/imagen')]
@@ -77,7 +78,29 @@ class ImagenController extends AbstractController
     #[Route('/{id}', name: 'app_imagen_show', methods: ['GET'])]
     public function show(Imagen $imagen): Response
     {
+        //Si el usuario no es admin y no es propietario le denegamos el paso
+        if (!$this->getUser()->isAdministrador()) {
+            if ($this->getUser() != $imagen->getRecurso()->getPropietario()) {
+                throw $this->createAccessDeniedException('No tienes acceso a este recurso porque no eres su propietario.');
+            }
+        }
+
         return $this->render('imagen/show.html.twig', [
+            'imagen' => $imagen,
+        ]);
+    }
+
+    #[Route('/guest/{id}', name: 'app_imagen_show_guest', methods: ['GET'])]
+    public function showInvitado(Imagen $imagen): Response
+    {
+        //Si el usuario no es admin y no tiene acceso denegamos el paso
+        if (!$this->getUser()->isAdministrador()) {
+            if (!$imagen->getRecurso()->getUsuarios()->contains($this->getUser())) {
+                throw $this->createAccessDeniedException('No tienes acceso a este recurso.');
+            }
+        }
+
+        return $this->render('imagen/showInvitado.html.twig', [
             'imagen' => $imagen,
         ]);
     }
@@ -85,6 +108,12 @@ class ImagenController extends AbstractController
     #[Route('/{id}/edit', name: 'app_imagen_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Imagen $imagen, ImagenRepository $imagenRepository): Response
     {
+        //Denegamos el acceso si el usuario que entra no es el propietario o admin
+        if ($this->getUser() != $imagen->getRecurso()->getPropietario() && !$this->getUser()->isAdministrador()) {
+            throw $this->createAccessDeniedException('No tienes acceso a este recurso porque no eres su propietario.');
+        }
+
+
         //Recogemos el tamaño previo a la modificación
         $tamanioPrevio = $imagen->getTamanio();
 
