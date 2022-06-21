@@ -113,21 +113,12 @@ class ImagenController extends AbstractController
             throw $this->createAccessDeniedException('No tienes acceso a este recurso porque no eres su propietario.');
         }
 
-
-        //Recogemos el tamaño previo a la modificación
-        $tamanioPrevio = $imagen->getTamanio();
-
         $form = $this->createForm(ImagenType::class, $imagen);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $imagenRepository->add($imagen, true);
-
-                //Actualizamos el espacio utilizado por el propietario
-                $propietario = $imagen->getRecurso()->getPropietario();
-                $propietario->setEspacioUtilizado($propietario->getEspacioUtilizado() - $tamanioPrevio + $imagen->getTamanio());
-
                 $this->addFlash('exito', '¡Se ha modificado la imagen "' . $imagen->getRecurso()->getNombre() . '" con éxito!');
             } catch (\Exception $e) {
                 $this->addFlash('error', 'Ha ocurrido un error a la hora de modificar la imagen...');
