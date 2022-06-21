@@ -20,34 +20,80 @@
         <a href="{{ path('app_audio_new') }}" class="text-blue-600"><span class="fa-solid fa-plus text-sm"></span> Nueva</a>
     </div>
 
-    <div class="table-wrapper">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Nombre</th>
-                    <th>Duración</th>
-                    <th><span class="sr-only">Editar</span></th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for index, audio in audios %}
-                <tr>
-                    <td>{{ index + 1 }}</td>
-                    <td class="table-enfasis">
-                        <a href="{{ path('app_audio_show', {'id': audio.id}) }}" class="table-link">{{ audio.recurso.nombre }}</a>
-                    </td>
-                    <td>{{ audio.duracion }}</td>
-                    <td>
-                        <a href="{{ path('app_audio_edit', {'id': audio.id}) }}" class="table-link">Editar</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4">No se han encontrado canciones</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+    <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+            <li class="mr-2" role="presentation">
+                <button class="inline-block p-4 rounded-t-lg border-b-2" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Mis Imagenes</button>
+            </li>
+            <li class="mr-2" role="presentation">
+                <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Compartidas conmigo</button>
+            </li>
+        </ul>
+    </div>
+    <div id="myTabContent">
+        <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Duración</th>
+                        <th><span class="sr-only">Editar</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for index, audio in audios %}
+                        <tr>
+                            <td>{{ index + 1 }}</td>
+                            <td class="table-enfasis">
+                                <a href="{{ path('app_audio_show', {'id': audio[0].id}) }}" class="table-link">{{ audio[0].recurso.nombre }}</a>
+                            </td>
+                            <td>{{ audio[0].duracion }}</td>
+                            <td>
+                                <a href="{{ path('app_audio_edit', {'id': audio[0].id}) }}" class="table-link">Editar</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4">No se han encontrado canciones</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Duración</th>
+                        <th><span class="sr-only">Editar</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for index, audioCompartido in audiosCompartidos %}
+                        <tr>
+                            <td>{{ index + 1 }}</td>
+                            <td class="table-enfasis">
+                                <a href="{{ path('app_audio_show_guest', {'id': audioCompartido[0].id}) }}" class="table-link">{{ audioCompartido[0].recurso.nombre }}</a>
+                            </td>
+                            <td>{{ audioCompartido[0].duracion }}</td>
+                            <td>
+                                <a href="{{ path('app_audio_edit', {'id': audioCompartido[0].id}) }}" class="table-link">Editar</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4">No se han encontrado canciones</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 {% endblock %}

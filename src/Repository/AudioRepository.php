@@ -63,4 +63,13 @@ class AudioRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findByRecurso(mixed $recurso)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.recurso = :recurso')
+            ->setParameter('recurso', $recurso)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
