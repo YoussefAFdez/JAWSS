@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Imagen;
 use App\Form\ImagenType;
 use App\Repository\ImagenRepository;
+use App\Repository\RecursoRepository;
 use App\Repository\UsuarioRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,10 +18,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class ImagenController extends AbstractController
 {
     #[Route('/', name: 'app_imagen_index', methods: ['GET'])]
-    public function index(ImagenRepository $imagenRepository): Response
+    public function index(ImagenRepository $imagenRepository, RecursoRepository $recursoRepository): Response
     {
+        //Recogemos los recursos que pertenecen al usuario y los agregamos en un array
+        $recursosUsuario = $recursoRepository->findByUsuario($this->getUser());
+        $imagenes = [];
+        foreach ($recursosUsuario as $recurso) {
+            $imagenes[] = $imagenRepository->findByRecurso($recurso);
+        }
+
+        //Recogemos los recursos compartidos con el usuario y los agregamos en un array
+        $recursosAccesibles = $this->getUser()->getRecursosAccesibles();
+        $imagenesCompartidas = [];
+        foreach ($recursosAccesibles as $recurso) {
+            $imagenesCompartidas[] = $imagenRepository->findByRecurso($recurso);
+        }
+
         return $this->render('imagen/index.html.twig', [
-            'imagenes' => $imagenRepository->findAll(),
+            'imagenes' => $imagenes,
+            'imagenesCompartidas' => $imagenesCompartidas,
         ]);
     }
 

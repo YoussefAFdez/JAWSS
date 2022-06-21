@@ -81,4 +81,14 @@ class RecursoRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findByUsuario($usuario)
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.propietario = :usuario')
+            ->setParameter('usuario', $usuario)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

@@ -104,22 +104,4 @@ class UsuarioController extends AbstractController
 
         return $this->redirectToRoute('app_usuario_index', [], Response::HTTP_SEE_OTHER);
     }
-
-    #[Route('/query/usuarios', name: 'api_usuario_query', methods: ['GET'])]
-    public function apiPersonQuery(
-        Request $request,
-        UsuarioRepository $usuarioRepository,
-    ): Response
-    {
-        $busquedaQuery = $request->get('q');
-
-        $usuarios = $usuarioRepository->findByBusqueda($busquedaQuery);
-
-        $data = [];
-        foreach ($usuarios as $usuario) {
-            $data[] = ['id' => $usuario->getId(), 'text' => $usuario->getNombreUsuario()];
-        }
-
-        return new JsonResponse($data);
-    }
 }

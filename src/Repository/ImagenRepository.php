@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Imagen;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends ServiceEntityRepository<Imagen>
@@ -63,4 +64,14 @@ class ImagenRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findByRecurso(mixed $recurso)
+    {
+        return $this->createQueryBuilder('i')
+            ->where('i.recurso = :recurso')
+            ->setParameter('recurso', $recurso)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
