@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Recurso;
 use App\Form\RecursoType;
 use App\Repository\RecursoRepository;
+use App\Repository\UsuarioRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,7 @@ class RecursoController extends AbstractController
     }
 
     #[Route('/new', name: 'app_recurso_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, RecursoRepository $recursoRepository): Response
+    public function new(Request $request, RecursoRepository $recursoRepository, UsuarioRepository $usuarioRepository): Response
     {
         $recurso = new Recurso();
         $form = $this->createForm(RecursoType::class, $recurso);
@@ -33,8 +34,15 @@ class RecursoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $recurso->setFichero(true);
+                $recurso->getRecurso()->setFichero(false);
+                $recurso->getRecurso()->setPropietario($this->getUser());
                 $recursoRepository->add($recurso, true);
+
+                //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario
+                $usuario = $this->getUser();
+                $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() + $recurso->getTamanio());
+                $usuarioRepository->add($usuario, true);
+
                 $this->addFlash('exito', '¡Se ha subido el recurso ' . $recurso->getNombre() . ' con éxito!');
             } catch (\Exception $e) {
                 $this->addFlash('error', 'Ha ocurrido un error a la hora de subir el recurso...');
@@ -81,16 +89,34 @@ class RecursoController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_recurso_delete', methods: ['POST'])]
-    public function delete(Request $request, Recurso $recurso, RecursoRepository $recursoRepository): Response
+    public function delete(Request $request, Recurso $recurso, RecursoRepository $recursoRepository, UsuarioRepository $usuarioRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$recurso->getId(), $request->request->get('_token'))) {
-            $recursoRepository->remove($recurso, true);
+            try {
+                //Recuperamos el tamaño del fichero a eliminar
+                $tamanio = $recurso->getTamanio();
+
+                //Eliminamos el fichero
+                $recursoRepository->remove($recurso, true);
+
+                //Quitamos el espacio utilizado de la cuenta del usuario
+                $usuario = $this->getUser();
+                $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() - $tamanio);
+
+                //Guardamos los cambios del usaurio
+                $usuarioRepository->add($usuario, true);
+
+                $this->addFlash('exito', 'Se ha eliminado el recurso correctamente');
+
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de eliminar el recurso');
+            }
         }
 
         return $this->redirectToRoute('app_recurso_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/query/recrusos', name: 'api_recurso_query', methods: ['GET'])]
+    #[Route('/query/recursos', name: 'api_recurso_query', methods: ['GET'])]
     public function apiPersonQuery(
         Request $request,
         RecursoRepository $recursoRepository,

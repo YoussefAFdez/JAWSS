@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Video;
 use App\Form\VideoType;
+use App\Repository\UsuarioRepository;
 use App\Repository\VideoRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +25,7 @@ class VideoController extends AbstractController
     }
 
     #[Route('/new', name: 'app_video_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, VideoRepository $videoRepository): Response
+    public function new(Request $request, VideoRepository $videoRepository, UsuarioRepository $usuarioRepository): Response
     {
         $video = new Video();
         $form = $this->createForm(VideoType::class, $video);
@@ -32,8 +33,17 @@ class VideoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+
+                //Declaramos que no es un fichero corriente y el usuario que lo sube
                 $video->getRecurso()->setFichero(false);
+                $video->getRecurso()->setPropietario($this->getUser());
                 $videoRepository->add($video, true);
+
+                //Agregamos el tamaño del video al total de bytes usados por el usuario
+                $usuario = $this->getUser();
+                $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() + $imagen->getTamanio());
+                $usuarioRepository->add($usuario, true);
+
                 $this->addFlash('exito', '¡Se ha subido el vídeo "' . $video->getRecurso()->getNombre() . '" con éxito!');
             } catch (\Exception $e) {
                 $this->addFlash('error', 'Ha ocurrido un error a la hora de subir el vídeo...');
@@ -80,10 +90,28 @@ class VideoController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_video_delete', methods: ['POST'])]
-    public function delete(Request $request, Video $video, VideoRepository $videoRepository): Response
+    public function delete(Request $request, Video $video, VideoRepository $videoRepository, UsuarioRepository $usuarioRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$video->getId(), $request->request->get('_token'))) {
-            $videoRepository->remove($video, true);
+            try {
+                //Recuperamos el tamaño del fichero a eliminar
+                $tamanio = $video->getTamanio();
+
+                //Eliminamos el fichero
+                $videoRepository->remove($video, true);
+
+                //Quitamos el espacio utilizado de la cuenta del usuario
+                $usuario = $this->getUser();
+                $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() - $tamanio);
+
+                //Guardamos los cambios del usaurio
+                $usuarioRepository->add($usuario, true);
+
+                $this->addFlash('exito', 'Se ha eliminado la imagen correctamente');
+
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de eliminar la imagen');
+            }
         }
 
         return $this->redirectToRoute('app_video_index', [], Response::HTTP_SEE_OTHER);

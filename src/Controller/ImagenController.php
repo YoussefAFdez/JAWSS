@@ -96,14 +96,27 @@ class ImagenController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_imagen_delete', methods: ['POST'])]
-    public function delete(Request $request, Imagen $imagen, ImagenRepository $imagenRepository): Response
+    public function delete(Request $request, Imagen $imagen, ImagenRepository $imagenRepository, UsuarioRepository $usuarioRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$imagen->getId(), $request->request->get('_token'))) {
             try {
+                //Recuperamos el tamaño del fichero a eliminar
+                $tamanio = $imagen->getTamanio();
+
+                //Eliminamos el fichero
                 $imagenRepository->remove($imagen, true);
 
-            } catch (\Exception $e) {
+                //Quitamos el espacio utilizado de la cuenta del usuario
+                $usuario = $this->getUser();
+                $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() - $tamanio);
 
+                //Guardamos los cambios del usaurio
+                $usuarioRepository->add($usuario, true);
+
+                $this->addFlash('exito', 'Se ha eliminado la imagen correctamente');
+
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de eliminar la imagen');
             }
         }
 

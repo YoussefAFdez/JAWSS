@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Audio;
 use App\Form\AudioType;
 use App\Repository\AudioRepository;
+use App\Repository\UsuarioRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ class AudioController extends AbstractController
     }
 
     #[Route('/new', name: 'app_audio_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, AudioRepository $audioRepository): Response
+    public function new(Request $request, AudioRepository $audioRepository, UsuarioRepository $usuarioRepository): Response
     {
         $audio = new Audio();
         $form = $this->createForm(AudioType::class, $audio);
@@ -33,7 +34,14 @@ class AudioController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $audio->getRecurso()->setFichero(false);
+                $audio->getRecurso()->setPropietario($this->getUser());
                 $audioRepository->add($audio, true);
+
+                //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario
+                $usuario = $this->getUser();
+                $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() + $audio->getTamanio());
+                $usuarioRepository->add($usuario, true);
+
                 $this->addFlash('exito', '¡Se ha subido el audio ' . $audio->getRecurso()->getNombre() . ' con éxito!');
             } catch (\Exception $e) {
                 $this->addFlash('error', 'Ha ocurrido un error a la hora de subir el audio...');
@@ -82,10 +90,28 @@ class AudioController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_audio_delete', methods: ['POST'])]
-    public function delete(Request $request, Audio $audio, AudioRepository $audioRepository): Response
+    public function delete(Request $request, Audio $audio, AudioRepository $audioRepository, UsuarioRepository $usuarioRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$audio->getId(), $request->request->get('_token'))) {
-            $audioRepository->remove($audio, true);
+            try {
+                //Recuperamos el tamaño del fichero a eliminar
+                $tamanio = $audio->getTamanio();
+
+                //Eliminamos el fichero
+                $audioRepository->remove($audio, true);
+
+                //Quitamos el espacio utilizado de la cuenta del usuario
+                $usuario = $this->getUser();
+                $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() - $tamanio);
+
+                //Guardamos los cambios del usaurio
+                $usuarioRepository->add($usuario, true);
+
+                $this->addFlash('exito', 'Se ha eliminado la cancion correctamente');
+
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de eliminar la cancion');
+            }
         }
 
         return $this->redirectToRoute('app_audio_index', [], Response::HTTP_SEE_OTHER);

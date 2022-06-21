@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Modelo3D;
 use App\Form\Modelo3DType;
 use App\Repository\Modelo3DRepository;
+use App\Repository\UsuarioRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ class Modelo3DController extends AbstractController
     }
 
     #[Route('/new', name: 'app_modelo3d_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, Modelo3DRepository $modelo3DRepository): Response
+    public function new(Request $request, Modelo3DRepository $modelo3DRepository, UsuarioRepository $usuarioRepository): Response
     {
         $modelo3D = new Modelo3D();
         $form = $this->createForm(Modelo3DType::class, $modelo3D);
@@ -33,7 +34,14 @@ class Modelo3DController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $modelo3D->getRecurso()->setFichero(false);
+                $modelo3D->getRecurso()->setPropietario($this->getUser());
                 $modelo3DRepository->add($modelo3D, true);
+
+                //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario
+                $usuario = $this->getUser();
+                $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() + $modelo3D->getTamanio());
+                $usuarioRepository->add($usuario, true);
+
                 $this->addFlash('exito', '¡Se ha subido el objeto "' . $modelo3D->getRecurso()->getNombre() . '" con éxito!');
             } catch (\Exception $e) {
                 $this->addFlash('error', 'Ha ocurrido un error a la hora de subir el objeto...');
@@ -80,10 +88,28 @@ class Modelo3DController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_modelo3d_delete', methods: ['POST'])]
-    public function delete(Request $request, Modelo3D $modelo3D, Modelo3DRepository $modelo3DRepository): Response
+    public function delete(Request $request, Modelo3D $modelo3D, Modelo3DRepository $modelo3DRepository, UsuarioRepository $usuarioRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$modelo3D->getId(), $request->request->get('_token'))) {
-            $modelo3DRepository->remove($modelo3D, true);
+            try {
+                //Recuperamos el tamaño del fichero a eliminar
+                $tamanio = $modelo3D->getTamanio();
+
+                //Eliminamos la imagen
+                $modelo3DRepository->remove($modelo3D, true);
+
+                //Quitamos el espacio utilizado de la cuenta del usuario
+                $usuario = $this->getUser();
+                $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() - $tamanio);
+
+                //Guardamos los cambios del usaurio
+                $usuarioRepository->add($usuario, true);
+
+                $this->addFlash('exito', 'Se ha eliminado el objeto correctamente');
+
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de eliminar el objeto');
+            }
         }
 
         return $this->redirectToRoute('app_modelo3d_index', [], Response::HTTP_SEE_OTHER);

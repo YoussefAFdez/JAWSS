@@ -102,6 +102,6 @@ class SeguridadController extends AbstractController
 
         $this->addFlash('exito', 'Se ha verificado tu cuenta de correo electrónico');
 
-        return $this->redirectToRoute('login');
+        return $this->redirectToRoute('index');
     }
 }
