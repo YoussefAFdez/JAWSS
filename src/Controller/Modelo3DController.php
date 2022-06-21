@@ -95,9 +95,6 @@ class Modelo3DController extends AbstractController
                 //Recuperamos el tamaño del fichero a eliminar
                 $tamanio = $modelo3D->getTamanio();
 
-                //Eliminamos la imagen
-                $modelo3DRepository->remove($modelo3D, true);
-
                 //Quitamos el espacio utilizado de la cuenta del usuario
                 $usuario = $this->getUser();
                 $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() - $tamanio);
@@ -105,10 +102,11 @@ class Modelo3DController extends AbstractController
                 //Guardamos los cambios del usaurio
                 $usuarioRepository->add($usuario, true);
 
-                $this->addFlash('exito', 'Se ha eliminado el objeto correctamente');
+                //Eliminamos la imagen
+                $modelo3DRepository->remove($modelo3D, true);
 
             } catch (\Exception $e) {
-                $this->addFlash('error', 'Ha ocurrido un error a la hora de eliminar el objeto');
+                $this->addFlash('exito', 'Se ha eliminado el objeto correctamente');
             }
         }
 

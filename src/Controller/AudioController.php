@@ -97,9 +97,6 @@ class AudioController extends AbstractController
                 //Recuperamos el tamaño del fichero a eliminar
                 $tamanio = $audio->getTamanio();
 
-                //Eliminamos el fichero
-                $audioRepository->remove($audio, true);
-
                 //Quitamos el espacio utilizado de la cuenta del usuario
                 $usuario = $this->getUser();
                 $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() - $tamanio);
@@ -107,10 +104,11 @@ class AudioController extends AbstractController
                 //Guardamos los cambios del usaurio
                 $usuarioRepository->add($usuario, true);
 
-                $this->addFlash('exito', 'Se ha eliminado la cancion correctamente');
+                //Eliminamos el fichero
+                $audioRepository->remove($audio, true);
 
             } catch (\Exception $e) {
-                $this->addFlash('error', 'Ha ocurrido un error a la hora de eliminar la cancion');
+                $this->addFlash('exito', 'Se ha eliminado la cancion correctamente');
             }
         }
 

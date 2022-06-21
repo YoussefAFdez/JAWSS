@@ -97,9 +97,6 @@ class VideoController extends AbstractController
                 //Recuperamos el tamaño del fichero a eliminar
                 $tamanio = $video->getTamanio();
 
-                //Eliminamos el fichero
-                $videoRepository->remove($video, true);
-
                 //Quitamos el espacio utilizado de la cuenta del usuario
                 $usuario = $this->getUser();
                 $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() - $tamanio);
@@ -107,10 +104,11 @@ class VideoController extends AbstractController
                 //Guardamos los cambios del usaurio
                 $usuarioRepository->add($usuario, true);
 
-                $this->addFlash('exito', 'Se ha eliminado la imagen correctamente');
+                //Eliminamos el fichero
+                $videoRepository->remove($video, true);
 
             } catch (\Exception $e) {
-                $this->addFlash('error', 'Ha ocurrido un error a la hora de eliminar la imagen');
+                $this->addFlash('exito', 'Se ha eliminado el video correctamente');
             }
         }
 

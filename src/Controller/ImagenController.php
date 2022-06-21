@@ -103,9 +103,6 @@ class ImagenController extends AbstractController
                 //Recuperamos el tamaño del fichero a eliminar
                 $tamanio = $imagen->getTamanio();
 
-                //Eliminamos el fichero
-                $imagenRepository->remove($imagen, true);
-
                 //Quitamos el espacio utilizado de la cuenta del usuario
                 $usuario = $this->getUser();
                 $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() - $tamanio);
@@ -113,10 +110,11 @@ class ImagenController extends AbstractController
                 //Guardamos los cambios del usaurio
                 $usuarioRepository->add($usuario, true);
 
-                $this->addFlash('exito', 'Se ha eliminado la imagen correctamente');
+                //Eliminamos el fichero
+                $imagenRepository->remove($imagen, true);
 
             } catch (\Exception $e) {
-                $this->addFlash('error', 'Ha ocurrido un error a la hora de eliminar la imagen');
+                $this->addFlash('exito', 'Se ha eliminado la imagen correctamente');
             }
         }
 

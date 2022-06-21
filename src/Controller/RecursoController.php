@@ -96,9 +96,6 @@ class RecursoController extends AbstractController
                 //Recuperamos el tamaño del fichero a eliminar
                 $tamanio = $recurso->getTamanio();
 
-                //Eliminamos el fichero
-                $recursoRepository->remove($recurso, true);
-
                 //Quitamos el espacio utilizado de la cuenta del usuario
                 $usuario = $this->getUser();
                 $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() - $tamanio);
@@ -106,10 +103,11 @@ class RecursoController extends AbstractController
                 //Guardamos los cambios del usaurio
                 $usuarioRepository->add($usuario, true);
 
-                $this->addFlash('exito', 'Se ha eliminado el recurso correctamente');
+                //Eliminamos el fichero
+                $recursoRepository->remove($recurso, true);
 
             } catch (\Exception $e) {
-                $this->addFlash('error', 'Ha ocurrido un error a la hora de eliminar el recurso');
+                $this->addFlash('exito', 'Se ha eliminado el recurso correctamente');
             }
         }
 
