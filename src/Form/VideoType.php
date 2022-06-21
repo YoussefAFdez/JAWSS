@@ -17,7 +17,10 @@ class VideoType extends AbstractType
         $builder
             ->add('recurso', RecursoType::class)
             ->add('duracion')
-            ->add('videoFile', VichFileType::class, [
+        ;
+
+        if ($options['nuevo']) {
+            $builder->add('videoFile', VichFileType::class, [
                 'label' => 'Subir fichero:',
                 'required' => false,
                 'allow_delete' => false,
@@ -25,14 +28,15 @@ class VideoType extends AbstractType
                     'class' => 'block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400'
                 ),
                 'download_uri' => false
-            ])
-        ;
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Video::class,
+            'nuevo' => false
         ]);
     }
 }
