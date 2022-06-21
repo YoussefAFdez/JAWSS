@@ -41,7 +41,7 @@ class VideoController extends AbstractController
 
                 //Agregamos el tamaño del video al total de bytes usados por el usuario
                 $usuario = $this->getUser();
-                $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() + $imagen->getTamanio());
+                $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() + $video->getTamanio());
                 $usuarioRepository->add($usuario, true);
 
                 $this->addFlash('exito', '¡Se ha subido el vídeo "' . $video->getRecurso()->getNombre() . '" con éxito!');
