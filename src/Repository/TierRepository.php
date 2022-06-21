@@ -72,4 +72,14 @@ class TierRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findTierBase()
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.almacenamiento')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getSingleResult()
+        ;
+    }
 }

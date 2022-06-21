@@ -59,7 +59,8 @@ class SeguridadController extends AbstractController
                         $user, $form->get('clave')->get('first')->getData()
                     )
                 );
-                $user->setTier($tierRepository->find(1));
+
+                $user->setTier($tierRepository->findTierBase());
                 $user->setAdministrador(false);
                 $user->setEspacioUtilizado(0);
 
@@ -68,7 +69,7 @@ class SeguridadController extends AbstractController
 
                 $this->addFlash('exito', 'Se ha registrado su cuenta correctamente.');
             } catch (\Exception $e) {
-
+                $this->addFlash('error', $e->getMessage());
             }
 
             // generate a signed url and email it to the user

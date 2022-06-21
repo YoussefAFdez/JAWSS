@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Iniciar Sesión - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="mt-2">
+        <div class="flex justify-center w-40 h-40 mx-auto">
+            <img src="{{ asset('images/jawws_logo.png') }}" alt="Website Logo" class="text-center">
+        </div>
+        <h1 class="text-3xl mb-3 text-center">¡Bienvenido a JAWSS!</h1>
+        <!-- Formulario de inicio de sesión -->
+        <div class="max-w-2xl mx-auto">
+            <div class="mx-auto bg-white shadow-md border border-gray-200 rounded-lg max-w-sm p-4 sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700">
+                <form class="space-y-6" method="post">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white">Recuperación de Contraseña</h3>
+                    <h4 class="text-sm text-gray-900">Introduce tu dirección correo electrónico para que te enviemos un correo con una nueva clave.</h4>
+                    <div>
+                        <label for="email" class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">Correo Electrónico</label>
+                        <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="nombre@correo.com" required="">
+                    </div>
+                    <button name="btnEnviar" type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Recuperar Contraseña</button>
+                    <div class="text-sm font-medium text-gray-500 dark:text-gray-300 flex justify-between">
+                        <span>¿Has recordado tu contraseña?</span>
+                        <a href="{{ path('app_login') }}" class="text-blue-700 hover:underline dark:text-blue-500">Iniciar Sesión</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
