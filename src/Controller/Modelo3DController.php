@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Modelo3D;
 use App\Form\Modelo3DType;
 use App\Repository\Modelo3DRepository;
+use App\Repository\RecursoRepository;
 use App\Repository\UsuarioRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,10 +18,30 @@ use Symfony\Component\Routing\Annotation\Route;
 class Modelo3DController extends AbstractController
 {
     #[Route('/', name: 'app_modelo3d_index', methods: ['GET'])]
-    public function index(Modelo3DRepository $modelo3DRepository): Response
+    public function index(Modelo3DRepository $modelo3DRepository, RecursoRepository $recursoRepository): Response
     {
+        //Recogemos los recursos que pertenecen al usuario y los agregamos en un array
+        $recursosUsuario = $recursoRepository->findByUsuario($this->getUser());
+        $modelos3d = [];
+        foreach ($recursosUsuario as $recurso) {
+            $modelo3d = $modelo3DRepository->findByRecurso($recurso);
+            if (!empty($modelo3d)) $modelos3d[] = $modelo3d;
+        }
+
+        //Recogemos los recursos compartidos con el usuario y los agregamos en un array
+        $recursosAccesibles = $this->getUser()->getRecursosAccesibles();
+        $modelos3dCompartidos = [];
+        foreach ($recursosAccesibles as $recurso) {
+            $modelo3dCompartido = $modelo3DRepository->findByRecurso($recurso);
+            if (!empty($modelo3dCompartido)) $modelos3dCompartidos[] = $modelo3dCompartido;
+        }
+
+        dump($modelos3d);
+        dump($modelos3dCompartidos);
+
         return $this->render('modelo3d/index.html.twig', [
-            'modelos3d' => $modelo3DRepository->findAll(),
+            'modelos3d' => $modelos3d,
+            'modelos3dCompartidos' => $modelos3dCompartidos,
         ]);
     }
 
@@ -61,7 +82,29 @@ class Modelo3DController extends AbstractController
     #[Route('/{id}', name: 'app_modelo3d_show', methods: ['GET'])]
     public function show(Modelo3D $modelo3D): Response
     {
+        //Si el usuario no es admin y no es propietario le denegamos el paso
+        if (!$this->getUser()->isAdministrador()) {
+            if ($this->getUser() != $modelo3D->getRecurso()->getPropietario()) {
+                throw $this->createAccessDeniedException('No tienes acceso a este recurso porque no eres su propietario.');
+            }
+        }
+
         return $this->render('modelo3d/show.html.twig', [
+            'modelo3d' => $modelo3D,
+        ]);
+    }
+
+    #[Route('/guest/{id}', name: 'app_modelo3d_show_guest', methods: ['GET'])]
+    public function showInvitado(Modelo3D $modelo3D): Response
+    {
+        //Si el usuario no es admin y no tiene acceso denegamos el paso
+        if (!$this->getUser()->isAdministrador()) {
+            if (!$modelo3D->getRecurso()->getUsuarios()->contains($this->getUser())) {
+                throw $this->createAccessDeniedException('No tienes acceso a este recurso.');
+            }
+        }
+
+        return $this->render('modelo3d/showInvitado.html.twig', [
             'modelo3d' => $modelo3D,
         ]);
     }
@@ -69,6 +112,11 @@ class Modelo3DController extends AbstractController
     #[Route('/{id}/edit', name: 'app_modelo3d_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Modelo3D $modelo3D, Modelo3DRepository $modelo3DRepository): Response
     {
+        //Denegamos el acceso si el usuario que entra no es el propietario o admin
+        if ($this->getUser() != $modelo3D->getRecurso()->getPropietario() && !$this->getUser()->isAdministrador()) {
+            throw $this->createAccessDeniedException('No tienes acceso a este recurso porque no eres su propietario.');
+        }
+
         $form = $this->createForm(Modelo3DType::class, $modelo3D);
         $form->handleRequest($request);
 

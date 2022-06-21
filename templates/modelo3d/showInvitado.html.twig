@@ -1,0 +1,66 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Modelo3D{% endblock %}
+
+{% block contenido %}
+
+    <div class="flex items-baseline">
+        <h1 class="text-xl my-4 font-bold mr-5">{{ modelo3d.recurso }}</h1>
+        <a class="text-blue-600 hover:underline" href="{{ vich_uploader_asset(modelo3d) }}" download><span class="fa-solid fa-download"></span> Descargar</a>
+    </div>
+
+    <div class="table-wrapper mb-4 mt-4">
+        <table class="w-full table-fixed">
+            <tbody>
+                <tr class="w-full px-2 py-2">
+                    <td class="table-enfasis">Nombre:</td>
+                    <td>{{ modelo3d.recurso }}</td>
+                </tr>
+                <tr class="w-full px-2 py-2">
+                    <td class="table-enfasis">Descripción:</td>
+                    <td>{{ modelo3d.recurso.descripcion }}</td>
+                </tr>
+                <tr class="w-full px-2 py-2">
+                    <td class="table-enfasis">Tamaño (MB):</td>
+                    <td>{{ (modelo3d.tamanio / 1048576) | number_format(2, ',', '.')  }} MB</td>
+                </tr>
+                <tr class="w-full px-2 py-2">
+                    <td class="table-enfasis">Extensión:</td>
+                    <td>{{ modelo3d.recurso.extension }}</td>
+                </tr>
+                <tr class="w-full px-2 py-2">
+                    <td class="table-enfasis">Material:</td>
+                    <td>{{ modelo3d.material }}</td>
+                </tr>
+                <tr class="w-full px-2 py-2">
+                    <td class="table-enfasis">Relleno:</td>
+                    <td>{{ modelo3d.relleno }}</td>
+                </tr>
+                <tr class="w-full px-2 py-2">
+                    <td class="table-enfasis">Resolución:</td>
+                    <td>{{ modelo3d.resolucion }}</td>
+                </tr>
+                <tr class="w-full px-2 py-2">
+                    <td class="table-enfasis">Soportes:</td>
+                    <td>{{ modelo3d.soportes ? 'Si' : 'No' }}</td>
+                </tr>
+                <tr class="w-full px-2 py-2">
+                    <td class="table-enfasis">URL:</td>
+                    <td>
+                        <a class="table-link" href="{{ modelo3d.url }}">{{ modelo3d.url }}</a>
+                    </td>
+                </tr>
+                <tr class="w-full px-2 py-2">
+                    <td class="table-enfasis">Propietario:</td>
+                    <td>
+                        <a class="table-link" href="{{ path('app_usuario_show', {'id': modelo3d.recurso.propietario.id}) }}">{{ modelo3d.recurso.propietario }}</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mb-8">
+        <a href="{{ path('app_modelo3d_index') }}" class="text-blue-600 hover:underline mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
+    </div>
+{% endblock %}

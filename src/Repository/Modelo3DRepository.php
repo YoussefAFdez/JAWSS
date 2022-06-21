@@ -63,4 +63,13 @@ class Modelo3DRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findByRecurso(mixed $recurso)
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.recurso = :recurso')
+            ->setParameter('recurso', $recurso)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

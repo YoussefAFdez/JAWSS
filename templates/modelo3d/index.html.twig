@@ -19,42 +19,96 @@
         </button>
     </div>
 
-    <div class="table-wrapper">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Nombre</th>
-                    <th>Material</th>
-                    <th>Relleno</th>
-                    <th>Resolucion</th>
-                    <th>Soportes</th>
-                    <th>Url</th>
-                    <th><span class="sr-only">Editar</span></th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for index, modelo3d in modelos3d %}
-                <tr>
-                    <td>{{ index + 1 }}</td>
-                    <td class="table-enfasis">
-                        <a class="table-link" href="{{ path('app_modelo3d_show', {'id': modelo3d.id}) }}">{{ modelo3d.recurso.nombre }}</a>
-                    </td>
-                    <td>{{ modelo3d.material }}</td>
-                    <td>{{ modelo3d.relleno }}</td>
-                    <td>{{ modelo3d.resolucion }}</td>
-                    <td>{{ modelo3d.soportes ? 'Si' : 'No' }}</td>
-                    <td>{{ modelo3d.url }}</td>
-                    <td>
-                        <a class="table-link" href="{{ path('app_modelo3d_edit', {'id': modelo3d.id}) }}">Editar</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="8">No se han encontrado Modelos 3D</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+    <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+            <li class="mr-2" role="presentation">
+                <button class="inline-block p-4 rounded-t-lg border-b-2" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Mis Modelos</button>
+            </li>
+            <li class="mr-2" role="presentation">
+                <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Compartidos conmigo</button>
+            </li>
+        </ul>
+    </div>
+    <div id="myTabContent">
+        <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Material</th>
+                            <th>Relleno</th>
+                            <th>Resolucion</th>
+                            <th>Soportes</th>
+                            <th>Url</th>
+                            <th><span class="sr-only">Editar</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for index, modelo3d in modelos3d %}
+                        <tr>
+                            <td>{{ index + 1 }}</td>
+                            <td class="table-enfasis">
+                                <a class="table-link" href="{{ path('app_modelo3d_show', {'id': modelo3d[0].id}) }}">{{ modelo3d[0].recurso.nombre }}</a>
+                            </td>
+                            <td>{{ modelo3d[0].material }}</td>
+                            <td>{{ modelo3d[0].relleno }}</td>
+                            <td>{{ modelo3d[0].resolucion }}</td>
+                            <td>{{ modelo3d[0].soportes ? 'Si' : 'No' }}</td>
+                            <td>{{ modelo3d[0].url }}</td>
+                            <td>
+                                <a class="table-link" href="{{ path('app_modelo3d_edit', {'id': modelo3d[0].id}) }}">Editar</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8">No se han encontrado Modelos 3D</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Material</th>
+                            <th>Relleno</th>
+                            <th>Resolucion</th>
+                            <th>Soportes</th>
+                            <th>Url</th>
+                            <th><span class="sr-only">Editar</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for index, modelo3dCompartido in modelos3dCompartidos %}
+                        <tr>
+                            <td>{{ index + 1 }}</td>
+                            <td class="table-enfasis">
+                                <a class="table-link" href="{{ path('app_modelo3d_show_guest', {'id': modelo3dCompartido[0].id}) }}">{{ modelo3dCompartido[0].recurso.nombre }}</a>
+                            </td>
+                            <td>{{ modelo3dCompartido[0].material }}</td>
+                            <td>{{ modelo3dCompartido[0].relleno }}</td>
+                            <td>{{ modelo3dCompartido[0].resolucion }}</td>
+                            <td>{{ modelo3dCompartido[0].soportes ? 'Si' : 'No' }}</td>
+                            <td>{{ modelo3dCompartido[0].url }}</td>
+                            <td>
+                                <a class="table-link" href="{{ path('app_modelo3d_edit', {'id': modelo3dCompartido[0].id}) }}">Editar</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8">No se han encontrado Modelos 3D</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 {% endblock %}
