@@ -38,7 +38,7 @@ class Modelo3DType extends AbstractType
         if ($options['nuevo']) {
             $builder->add('modeloFile', VichFileType::class, [
                 'label' => 'Subir fichero:',
-                'required' => false,
+                'required' => true,
                 'allow_delete' => false,
                 'download_label' => '',
                 'download_uri' => false,

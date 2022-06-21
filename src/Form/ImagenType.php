@@ -23,7 +23,7 @@ class ImagenType extends AbstractType
         if ($options['nuevo']) {
             $builder->add('imageFile', VichImageType::class, [
                 'label' => 'Subir fichero:',
-                'required' => false,
+                'required' => true,
                 'allow_delete' => false,
                 'download_label' => '',
                 'download_uri' => false,
