@@ -18,3 +18,7 @@ vich_uploader:
             uri_prefix: /archivos/modelo3d
             upload_destination: '%kernel.project_dir%/public/archivos/modelos3d'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+        fichero:
+            uri_prefix: /archivos/ficheros
+            upload_destination: '%kernel.project_dir%/public/archivos/ficheros'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer

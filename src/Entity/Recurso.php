@@ -7,9 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=RecursoRepository::class)
+ * @Vich\Uploadable
  */
 class Recurso
 {
@@ -39,6 +42,24 @@ class Recurso
      * @ORM\Column(type="boolean")
      */
     private $fichero;
+
+    /**
+     * @Vich\UploadableField(mapping="fichero", fileNameProperty="nombreFichero", size="tamanio")
+     * @var File|null
+     */
+    private $ficheroFile;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $nombreFichero;
+
+    /**
+     * @var int|null
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $tamanio;
 
     /**
      * @ORM\ManyToOne(targetEntity=Usuario::class, inversedBy="recursos")
@@ -118,6 +139,42 @@ class Recurso
     {
         $this->fichero = $fichero;
 
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNombreFichero(): ?string
+    {
+        return $this->nombreFichero;
+    }
+
+    /**
+     * @param string|null $nombreFichero
+     * @return Recurso
+     */
+    public function setNombreFichero(?string $nombreFichero): Recurso
+    {
+        $this->nombreFichero = $nombreFichero;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getTamanio(): ?int
+    {
+        return $this->tamanio;
+    }
+
+    /**
+     * @param int|null $tamanio
+     * @return Recurso
+     */
+    public function setTamanio(?int $tamanio): Recurso
+    {
+        $this->tamanio = $tamanio;
         return $this;
     }
 
