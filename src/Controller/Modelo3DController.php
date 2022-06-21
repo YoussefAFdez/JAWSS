@@ -36,9 +36,6 @@ class Modelo3DController extends AbstractController
             if (!empty($modelo3dCompartido)) $modelos3dCompartidos[] = $modelo3dCompartido;
         }
 
-        dump($modelos3d);
-        dump($modelos3dCompartidos);
-
         return $this->render('modelo3d/index.html.twig', [
             'modelos3d' => $modelos3d,
             'modelos3dCompartidos' => $modelos3dCompartidos,
