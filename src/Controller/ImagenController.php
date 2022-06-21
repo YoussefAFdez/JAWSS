@@ -28,7 +28,9 @@ class ImagenController extends AbstractController
     public function new(Request $request, ImagenRepository $imagenRepository, UsuarioRepository $usuarioRepository): Response
     {
         $imagen = new Imagen();
-        $form = $this->createForm(ImagenType::class, $imagen);
+        $form = $this->createForm(ImagenType::class, $imagen, [
+            'nuevo' => true,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

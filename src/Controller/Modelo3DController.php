@@ -28,7 +28,9 @@ class Modelo3DController extends AbstractController
     public function new(Request $request, Modelo3DRepository $modelo3DRepository, UsuarioRepository $usuarioRepository): Response
     {
         $modelo3D = new Modelo3D();
-        $form = $this->createForm(Modelo3DType::class, $modelo3D);
+        $form = $this->createForm(Modelo3DType::class, $modelo3D, [
+            'nuevo' => true,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

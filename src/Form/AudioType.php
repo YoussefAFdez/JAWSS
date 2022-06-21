@@ -17,7 +17,9 @@ class AudioType extends AbstractType
         $builder
             ->add('recurso', RecursoType::class)
             ->add('duracion', TextType::class)
-            ->add('audioFile', VichFileType::class, [
+        ;
+        if ($options['nuevo']) {
+            $builder->add('audioFile', VichFileType::class, [
                 'label' => 'Subir fichero:',
                 'required' => false,
                 'allow_delete' => false,
@@ -26,14 +28,15 @@ class AudioType extends AbstractType
                 'attr' => array(
                     'class' => 'block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400'
                 ),
-            ])
-        ;
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Audio::class,
+            'nuevo' => false,
         ]);
     }
 }

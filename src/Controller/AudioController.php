@@ -28,7 +28,9 @@ class AudioController extends AbstractController
     public function new(Request $request, AudioRepository $audioRepository, UsuarioRepository $usuarioRepository): Response
     {
         $audio = new Audio();
-        $form = $this->createForm(AudioType::class, $audio);
+        $form = $this->createForm(AudioType::class, $audio, [
+            'nuevo' => true,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

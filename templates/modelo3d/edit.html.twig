@@ -5,7 +5,7 @@
 {% block contenido %}
     <h1 class="text-xl my-4 font-bold">Editando "{{ modelo3d.recurso }}"</h1>
 
-    {{ include('modelo3d/_form.html.twig', {'button_label': 'Actualizar'}) }}
+    {{ include('modelo3d/_editForm.html.twig', {'button_label': 'Actualizar'}) }}
     <div class="mb-4">
         <a href="{{ path('app_modelo3d_index') }}" class="text-blue-600 mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
         {{ include('modelo3d/_delete_form.html.twig') }}

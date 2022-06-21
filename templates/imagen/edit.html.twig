@@ -5,7 +5,7 @@
 {% block contenido %}
     <h1 class="text-xl my-4 font-bold">Editando "{{ imagen.recurso }}"</h1>
 
-    {{ include('imagen/_form.html.twig', {'button_label': 'Actualizar'}) }}
+    {{ include('imagen/_editForm.html.twig', {'button_label': 'Actualizar'}) }}
     <div class="mb-4">
         <a href="{{ path('app_imagen_index') }}" class="text-blue-600 mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
         {{ include('imagen/_delete_form.html.twig') }}

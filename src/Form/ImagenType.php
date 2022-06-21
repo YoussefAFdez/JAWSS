@@ -19,7 +19,9 @@ class ImagenType extends AbstractType
         $builder
             ->add('recurso', RecursoType::class)
             ->add('resolucion', TextType::class)
-            ->add('imageFile', VichImageType::class, [
+        ;
+        if ($options['nuevo']) {
+            $builder->add('imageFile', VichImageType::class, [
                 'label' => 'Subir fichero:',
                 'required' => false,
                 'allow_delete' => false,
@@ -28,14 +30,15 @@ class ImagenType extends AbstractType
                 'attr' => array(
                     'class' => 'block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400'
                 )
-            ])
-        ;
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Imagen::class,
+            'nuevo' => false,
         ]);
     }
 }
