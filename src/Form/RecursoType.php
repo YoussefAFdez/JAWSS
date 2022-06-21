@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class RecursoType extends AbstractType
 {
@@ -42,6 +43,18 @@ class RecursoType extends AbstractType
                 'remote_route' => 'api_usuario_query'
             ])
         ;
+        if ($options['nuevo']) {
+            $builder->add('ficheroFile', VichFileType::class, [
+                'label' => 'Subir fichero:',
+                'required' => true,
+                'allow_delete' => false,
+                'download_label' => '',
+                'download_uri' => false,
+                'attr' => array(
+                    'class' => 'block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400'
+                )
+            ]);
+        }
     }
 
 
@@ -49,6 +62,7 @@ class RecursoType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Recurso::class,
+            'nuevo' => false,
         ]);
     }
 }

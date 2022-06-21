@@ -29,13 +29,15 @@ class RecursoController extends AbstractController
     public function new(Request $request, RecursoRepository $recursoRepository, UsuarioRepository $usuarioRepository): Response
     {
         $recurso = new Recurso();
-        $form = $this->createForm(RecursoType::class, $recurso);
+        $form = $this->createForm(RecursoType::class, $recurso, [
+            'nuevo' => true,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $recurso->getRecurso()->setFichero(false);
-                $recurso->getRecurso()->setPropietario($this->getUser());
+                $recurso->setFichero(true);
+                $recurso->setPropietario($this->getUser());
                 $recursoRepository->add($recurso, true);
 
                 //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario
