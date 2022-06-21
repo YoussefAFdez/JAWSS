@@ -143,6 +143,24 @@ class Recurso
     }
 
     /**
+     * @return File|null
+     */
+    public function getFicheroFile(): ?File
+    {
+        return $this->ficheroFile;
+    }
+
+    /**
+     * @param File|null $ficheroFile
+     * @return Recurso
+     */
+    public function setFicheroFile(?File $ficheroFile): Recurso
+    {
+        $this->ficheroFile = $ficheroFile;
+        return $this;
+    }
+
+    /**
      * @return string|null
      */
     public function getNombreFichero(): ?string

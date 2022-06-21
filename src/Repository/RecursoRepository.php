@@ -72,4 +72,13 @@ class RecursoRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findFicheros()
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.fichero = true')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

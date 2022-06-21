@@ -21,7 +21,7 @@ class RecursoController extends AbstractController
     public function index(RecursoRepository $recursoRepository): Response
     {
         return $this->render('recurso/index.html.twig', [
-            'recursos' => $recursoRepository->findAll(),
+            'recursos' => $recursoRepository->findFicheros(),
         ]);
     }
 
