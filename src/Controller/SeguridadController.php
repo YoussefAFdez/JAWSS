@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Usuario;
 use App\Form\RegistrationFormType;
+use App\Form\UsuarioType;
 use App\Repository\TierRepository;
+use App\Repository\UsuarioRepository;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,5 +106,39 @@ class SeguridadController extends AbstractController
         $this->addFlash('exito', 'Se ha verificado tu cuenta de correo electrónico');
 
         return $this->redirectToRoute('index');
+    }
+
+    #[Route("/clave/cambio", name: "app_cambio_clave")]
+    #[Security("is_granted('ROLE_USER')")]
+    public function cambioClave(Request $request, UsuarioRepository $usuarioRepository, UserPasswordHasherInterface $userPasswordHasher) : Response {
+        $usuario = $this->getUser();
+        $usuario = $usuarioRepository->findUsuario($usuario->getNombreUsuario());
+
+        $form = $this->createForm(UsuarioType::class, $usuario, [
+            'cambioDatos' => true
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $usuario->setClave(
+                    $userPasswordHasher->hashPassword(
+                        $usuario, $form->get('clave')->get('first')->getData()
+                    )
+                );
+                $usuarioRepository->add($usuario, true);
+
+                $this->addFlash('exito', 'Se han modificado tus datos de usuario.');
+                return $this->redirectToRoute('index');
+            } catch (\Exception $exception) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de modificar tus datos.');
+            }
+        }
+
+        return $this->render('usuario/selfEdit.html.twig', [
+            'usuario' => $usuario,
+            'form' => $form->createView(),
+        ]);
     }
 }

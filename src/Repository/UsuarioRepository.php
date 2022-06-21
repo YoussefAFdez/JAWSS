@@ -72,4 +72,14 @@ class UsuarioRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    public function findUsuario($nombreUsuario)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.nombreUsuario = :nombreUsuario')
+            ->setParameter('nombreUsuario', $nombreUsuario)
+            ->getQuery()
+            ->getSingleResult()
+        ;
+    }
 }
