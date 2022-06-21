@@ -63,4 +63,13 @@ class VideoRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findByRecurso(mixed $recurso)
+    {
+        return $this->createQueryBuilder('v')
+            ->where('v.recurso = :recurso')
+            ->setParameter('recurso', $recurso)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

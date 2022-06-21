@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Video;
 use App\Form\VideoType;
+use App\Repository\RecursoRepository;
 use App\Repository\UsuarioRepository;
 use App\Repository\VideoRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -17,10 +18,27 @@ use Symfony\Component\Routing\Annotation\Route;
 class VideoController extends AbstractController
 {
     #[Route('/', name: 'app_video_index', methods: ['GET'])]
-    public function index(VideoRepository $videoRepository): Response
+    public function index(VideoRepository $videoRepository, RecursoRepository $recursoRepository): Response
     {
+        //Recogemos los recursos que pertenecen al usuario y los agregamos en un array
+        $recursosUsuario = $recursoRepository->findByUsuario($this->getUser());
+        $videos = [];
+        foreach ($recursosUsuario as $recurso) {
+            $video = $videoRepository->findByRecurso($recurso);
+            if (!empty($video)) $videos[] = $video;
+        }
+
+        //Recogemos los recursos compartidos con el usuario y los agregamos en un array
+        $recursosAccesibles = $this->getUser()->getRecursosAccesibles();
+        $videosCompartidos = [];
+        foreach ($recursosAccesibles as $recurso) {
+            $videoCompartido = $videoRepository->findByRecurso($recurso);
+            if (!empty($videoCompartido)) $videosCompartidos[] = $videoCompartido;
+        }
+
         return $this->render('video/index.html.twig', [
-            'videos' => $videoRepository->findAll(),
+            'videos' => $videos,
+            'videosCompartidos' => $videosCompartidos,
         ]);
     }
 
@@ -63,7 +81,29 @@ class VideoController extends AbstractController
     #[Route('/{id}', name: 'app_video_show', methods: ['GET'])]
     public function show(Video $video): Response
     {
+        //Si el usuario no es admin y no es propietario le denegamos el paso
+        if (!$this->getUser()->isAdministrador()) {
+            if ($this->getUser() != $video->getRecurso()->getPropietario()) {
+                throw $this->createAccessDeniedException('No tienes acceso a este recurso porque no eres su propietario.');
+            }
+        }
+
         return $this->render('video/show.html.twig', [
+            'video' => $video,
+        ]);
+    }
+
+    #[Route('/guest/{id}', name: 'app_imagen_show_guest', methods: ['GET'])]
+    public function showInvitado(Video $video): Response
+    {
+        //Si el usuario no es admin y no tiene acceso denegamos el paso
+        if (!$this->getUser()->isAdministrador()) {
+            if (!$video->getRecurso()->getUsuarios()->contains($this->getUser())) {
+                throw $this->createAccessDeniedException('No tienes acceso a este recurso.');
+            }
+        }
+
+        return $this->render('video/showInvitado.html.twig', [
             'video' => $video,
         ]);
     }
@@ -71,6 +111,12 @@ class VideoController extends AbstractController
     #[Route('/{id}/edit', name: 'app_video_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Video $video, VideoRepository $videoRepository): Response
     {
+
+        //Denegamos el acceso si el usuario que entra no es el propietario o admin
+        if ($this->getUser() != $video->getRecurso()->getPropietario() && !$this->getUser()->isAdministrador()) {
+            throw $this->createAccessDeniedException('No tienes acceso a este recurso porque no eres su propietario.');
+        }
+
         $form = $this->createForm(VideoType::class, $video);
         $form->handleRequest($request);
 

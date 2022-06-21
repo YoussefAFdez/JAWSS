@@ -8,23 +8,60 @@
         <a href="{{ path('app_video_new') }}" class="text-blue-600 hover:underline"><span class="fa-solid fa-plus text-sm"></span> Nuevo</a>
     </div>
 
-    <div class="flex gap-2 flex-wrap">
-        {% for video in videos %}
-            <a href="{{ path('app_video_show', {'id': video.id}) }}">
-                <div class="relative h-48 rounded-lg overflow-hidden flex bg-black">
-                    <video class="w-full">
-                        <source src="{{ vich_uploader_asset(video) }}">
-                    </video>
-                    <div class="flex pl-2 items-end opacity-0 hover:opacity-100 transition-opacity duration-300 hover:backdrop-blur-sm hover:bg-black/40 absolute w-full h-full py-2.5 bottom-0 inset-x-0 text-white text-xs leading-4">
-                        <div>
-                            <h2 class="ml-3 text-sm font-semibold text-white">{{ video.recurso }}</h2>
-                            <h3 class="ml-3 text-xs font-medium text-white">{{ video.recurso.propietario }}</h3>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        {% else %}
-            <h2>No hay vídeos que mostrar</h2>
-        {% endfor %}
+    <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+            <li class="mr-2" role="presentation">
+                <button class="inline-block p-4 rounded-t-lg border-b-2" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Mis Vídeos</button>
+            </li>
+            <li class="mr-2" role="presentation">
+                <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Compartids conmigo</button>
+            </li>
+        </ul>
     </div>
+    <div id="myTabContent">
+        <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="flex gap-2 flex-wrap">
+                {% for video in videos %}
+                    <a href="{{ path('app_video_show', {'id': video[0].id}) }}">
+                        <div class="relative h-48 rounded-lg overflow-hidden flex bg-black">
+                            <video class="w-full">
+                                <source src="{{ vich_uploader_asset(video[0]) }}">
+                            </video>
+                            <div class="flex pl-2 items-end opacity-0 hover:opacity-100 transition-opacity duration-300 hover:backdrop-blur-sm hover:bg-black/40 absolute w-full h-full py-2.5 bottom-0 inset-x-0 text-white text-xs leading-4">
+                                <div>
+                                    <h2 class="ml-3 text-sm font-semibold text-white">{{ video[0].recurso }}</h2>
+                                    <h3 class="ml-3 text-xs font-medium text-white">{{ video[0].recurso.propietario }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                {% else %}
+                    <h2>No hay vídeos que mostrar</h2>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+            <div class="flex gap-2 flex-wrap">
+                {% for videoCompartido in videosCompartidos %}
+                    <a href="{{ path('app_audio_show_guest', {'id': videoCompartido[0].id}) }}">
+                        <div class="relative h-48 rounded-lg overflow-hidden flex bg-black">
+                            <video class="w-full">
+                                <source src="{{ vich_uploader_asset(videoCompartido[0]) }}">
+                            </video>
+                            <div class="flex pl-2 items-end opacity-0 hover:opacity-100 transition-opacity duration-300 hover:backdrop-blur-sm hover:bg-black/40 absolute w-full h-full py-2.5 bottom-0 inset-x-0 text-white text-xs leading-4">
+                                <div>
+                                    <h2 class="ml-3 text-sm font-semibold text-white">{{ videoCompartido[0].recurso }}</h2>
+                                    <h3 class="ml-3 text-xs font-medium text-white">{{ videoCompartido[0].recurso.propietario }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                {% else %}
+                    <h2>No hay vídeos que mostrar</h2>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}
