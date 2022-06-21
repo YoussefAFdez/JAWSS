@@ -21,7 +21,7 @@
     <div id="myTabContent">
         <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <div class="flex gap-2 flex-wrap" id="1" role="tabpanel" aria-labelledby="mis-imagenes-tab">
-                {% for index, imagen in imagenes %}
+                {% for imagen in imagenes %}
                     <a href="{{ path('app_imagen_show', {'id': imagen[0].id}) }}">
                         <div class="relative h-44 rounded-lg overflow-hidden flex">
                             <img src="{{ vich_uploader_asset(imagen[0]) }}" alt="{{ imagen[0].nombreImagen }}" class="object-cover w-full h-full" />
@@ -40,7 +40,7 @@
         </div>
         <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
             <div class="flex gap-2 flex-wrap" id="1" role="tabpanel" aria-labelledby="mis-imagenes-tab">
-                {% for index, imagen in imagenesCompartidas %}
+                {% for imagen in imagenesCompartidas %}
                     <a href="{{ path('app_imagen_show_guest', {'id': imagen[0].id}) }}">
                         <div class="relative h-44 rounded-lg overflow-hidden flex">
                             <img src="{{ vich_uploader_asset(imagen[0]) }}" alt="{{ imagen[0].nombreImagen }}" class="object-cover w-full h-full" />
