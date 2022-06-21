@@ -25,15 +25,20 @@ class ImagenController extends AbstractController
         $recursosUsuario = $recursoRepository->findByUsuario($this->getUser());
         $imagenes = [];
         foreach ($recursosUsuario as $recurso) {
-            $imagenes[] = $imagenRepository->findByRecurso($recurso);
+            $imagen = $imagenRepository->findByRecurso($recurso);
+            if (!empty($imagen)) $imagenes[] = $imagen;
         }
 
         //Recogemos los recursos compartidos con el usuario y los agregamos en un array
         $recursosAccesibles = $this->getUser()->getRecursosAccesibles();
         $imagenesCompartidas = [];
         foreach ($recursosAccesibles as $recurso) {
-            $imagenesCompartidas[] = $imagenRepository->findByRecurso($recurso);
+            $imagenenCompartida = $imagenRepository->findByRecurso($recurso);
+            if (!empty($imagenCompartida)) $imagenesCompartidas[] = $imagenenCompartida;
         }
+
+        dump($imagenes);
+        dump($imagenesCompartidas);
 
         return $this->render('imagen/index.html.twig', [
             'imagenes' => $imagenes,
