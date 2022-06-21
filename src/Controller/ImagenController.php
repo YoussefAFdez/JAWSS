@@ -37,9 +37,6 @@ class ImagenController extends AbstractController
             if (!empty($imagenCompartida)) $imagenesCompartidas[] = $imagenenCompartida;
         }
 
-        dump($imagenes);
-        dump($imagenesCompartidas);
-
         return $this->render('imagen/index.html.twig', [
             'imagenes' => $imagenes,
             'imagenesCompartidas' => $imagenesCompartidas,
