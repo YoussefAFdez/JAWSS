@@ -14,10 +14,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/usuario')]
-#[Security("is_granted('ROLE_ADMIN')")]
 class UsuarioController extends AbstractController
 {
     #[Route('/', name: 'app_usuario_index', methods: ['GET'])]
+    #[Security("is_granted('ROLE_ADMIN')")]
     public function index(UsuarioRepository $usuarioRepository): Response
     {
         return $this->render('usuario/index.html.twig', [
@@ -26,6 +26,7 @@ class UsuarioController extends AbstractController
     }
 
     #[Route('/new', name: 'app_usuario_new', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_ADMIN')")]
     public function new(Request $request, UsuarioRepository $usuarioRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $usuario = new Usuario();
@@ -58,6 +59,7 @@ class UsuarioController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_usuario_show', methods: ['GET'])]
+    #[Security("is_granted('ROLE_USER')")]
     public function show(Usuario $usuario): Response
     {
         return $this->render('usuario/show.html.twig', [
@@ -66,6 +68,7 @@ class UsuarioController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_usuario_edit', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_ADMIN')")]
     public function edit(Request $request, Usuario $usuario, UsuarioRepository $usuarioRepository): Response
     {
         $form = $this->createForm(UsuarioType::class, $usuario);
@@ -89,6 +92,7 @@ class UsuarioController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_usuario_delete', methods: ['POST'])]
+    #[Security("is_granted('ROLE_ADMIN')")]
     public function delete(Request $request, Usuario $usuario, UsuarioRepository $usuarioRepository): Response
     {
         $nombreUsuario = $usuario->getNombreUsuario();

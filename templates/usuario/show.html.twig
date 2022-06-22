@@ -27,8 +27,12 @@
     </table>
 
     <div class="mb-8">
-        <a href="{{ path('app_usuario_index') }}" class="text-blue-600 hover:underline mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
-        <a href="{{ path('app_usuario_edit', {'id': usuario.id}) }}" class="text-blue-600 hover:underline mr-2"><span class="fa-solid fa-pen-to-square"></span> Editar</a>
-        {{ include('usuario/_delete_form.html.twig') }}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('app_usuario_index') }}" class="text-blue-600 hover:underline mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
+            <a href="{{ path('app_usuario_edit', {'id': usuario.id}) }}" class="text-blue-600 hover:underline mr-2"><span class="fa-solid fa-pen-to-square"></span> Editar</a>
+            {{ include('usuario/_delete_form.html.twig') }}
+        {% else %}
+            <a href="{{ path('index') }}" class="text-blue-600 hover:underline mr-2"><span class="fa-solid fa-arrow-left"></span> Volver a inicio</a>
+        {% endif %}
     </div>
 {% endblock %}
