@@ -39,6 +39,7 @@ class UsuarioType extends AbstractType
                 ->add('clave', RepeatedType::class, [
                     'label' => 'Contraseña',
                     'type' => PasswordType::class,
+                    'required' => false,
                     'mapped' => false,
                     'invalid_message' => 'Las contraseñas no coinciden',
                     'first_options' => [
