@@ -79,6 +79,22 @@ class Modelo3DController extends AbstractController
                     ]);
                 }
 
+                //Comprobamos que el fichero a subir no nos haga exceder por encima del limite de nuestro tier
+                $tamanioFichero = $form->get('modeloFile')->getData()->getSize();
+                $tamanioResultante = $this->getUser()->getEspacioUtilizado() + $tamanioFichero;
+
+                try {
+                    if ($tamanioResultante > $this->getUser()->getTier()->getAlmacenamiento()) {
+                        throw new \Exception('No se ha podido subir el archivo ya que excedería tu cuota o plan actual.');
+                    }
+                } catch (\Exception $e) {
+                    $this->addFlash('error', $e->getMessage());
+                    return $this->renderForm('modelo3d/new.html.twig', [
+                        'modelo3d' => $modelo3D,
+                        'form' => $form,
+                    ]);
+                }
+
                 $modelo3D->getRecurso()->setExtension($extension);
 
                 //Comprobamos si se ha dejado el campo nombre en blanco:

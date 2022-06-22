@@ -89,6 +89,22 @@ class ImagenController extends AbstractController
                     ]);
                 }
 
+                //Comprobamos que el fichero a subir no nos haga exceder por encima del limite de nuestro tier
+                $tamanioFichero = $form->get('imageFile')->getData()->getSize();
+                $tamanioResultante = $this->getUser()->getEspacioUtilizado() + $tamanioFichero;
+
+                try {
+                    if ($tamanioResultante > $this->getUser()->getTier()->getAlmacenamiento()) {
+                        throw new \Exception('No se ha podido subir el archivo ya que excedería tu cuota o plan actual.');
+                    }
+                } catch (\Exception $e) {
+                    $this->addFlash('error', $e->getMessage());
+                    return $this->renderForm('imagen/new.html.twig', [
+                        'imagen' => $imagen,
+                        'form' => $form,
+                    ]);
+                }
+
                 $imagen->getRecurso()->setExtension($extension);
 
                 //Comprobamos si se ha dejado el campo nombre en blanco:

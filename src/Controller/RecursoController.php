@@ -65,6 +65,22 @@ class RecursoController extends AbstractController
                     $recurso->setNombre($form->get('nombre')->getData());
                 }
 
+                //Comprobamos que el fichero a subir no nos haga exceder por encima del limite de nuestro tier
+                $tamanioFichero = $form->get('ficheroFile')->getData()->getSize();
+                $tamanioResultante = $this->getUser()->getEspacioUtilizado() + $tamanioFichero;
+
+                try {
+                    if ($tamanioResultante > $this->getUser()->getTier()->getAlmacenamiento()) {
+                        throw new \Exception('No se ha podido subir el archivo ya que excedería tu cuota o plan actual.');
+                    }
+                } catch (\Exception $e) {
+                    $this->addFlash('error', $e->getMessage());
+                    return $this->renderForm('recurso/new.html.twig', [
+                        'recurso' => $recurso,
+                        'form' => $form,
+                    ]);
+                }
+
                 $recurso->setExtension($extension);
 
                 $recursoRepository->add($recurso, true);
