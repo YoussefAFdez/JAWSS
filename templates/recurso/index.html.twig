@@ -7,38 +7,89 @@
         <h1 class="text-xl mr-3">Listado de Recursos</h1>
         <a href="{{ path('app_recurso_new') }}" class="text-blue-600"><span class="fa-solid fa-plus text-sm"></span> Nuevo</a>
     </div>
-    <div class="table-wrapper">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Descripción</th>
-                    <th scope="col">Extension</th>
-                    <th scope="col">Fichero Común</th>
-                    <th scope="col"><span class="sr-only">Edit</span></th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for index, recurso in recursos %}
-                <tr>
-                    <td>{{ index + 1 }}</td>
-                    <td class="table-enfasis">
-                        <a href="{{ path('app_recurso_show', {'id': recurso.id}) }}" class="table-link">{{ recurso.nombre }}</a>
-                    </td>
-                    <td>{{ recurso.descripcion }}</td>
-                    <td>{{ recurso.extension }}</td>
-                    <td>{{ recurso.fichero ? 'Yes' : 'No' }}</td>
-                    <td>
-                        <a href="{{ path('app_recurso_edit', {'id': recurso.id}) }}" class="table-link">Editar</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="6" class="px-6 py-4">No se han enontrado recursos</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+
+    <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+            <li class="mr-2" role="presentation">
+                <button class="inline-block p-4 rounded-t-lg border-b-2" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Mis Imágenes</button>
+            </li>
+            <li class="mr-2" role="presentation">
+                <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Compartidas conmigo</button>
+            </li>
+        </ul>
     </div>
+    <div id="myTabContent">
+        <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Extension</th>
+                        <th scope="col">Fichero Común</th>
+                        <th scope="col"><span class="sr-only">Edit</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for index, recurso in recursos %}
+                        <tr>
+                            <td>{{ index + 1 }}</td>
+                            <td class="table-enfasis">
+                                <a href="{{ path('app_recurso_show', {'id': recurso.id}) }}" class="table-link">{{ recurso.nombre }}</a>
+                            </td>
+                            <td>{{ recurso.descripcion }}</td>
+                            <td>{{ recurso.extension }}</td>
+                            <td>{{ recurso.fichero ? 'Yes' : 'No' }}</td>
+                            <td>
+                                <a href="{{ path('app_recurso_edit', {'id': recurso.id}) }}" class="table-link">Editar</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="px-6 py-4">No se han encontrado recursos</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Extension</th>
+                        <th scope="col">Fichero Común</th>
+                        <th scope="col"><span class="sr-only">Edit</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for index, recursoCompartido in recursosCompartidos %}
+                        <tr>
+                            <td>{{ index + 1 }}</td>
+                            <td class="table-enfasis">
+                                <a href="{{ path('app_recurso_show_guest', {'id': recursoCompartido.id}) }}" class="table-link">{{ recursoCompartido.nombre }}</a>
+                            </td>
+                            <td>{{ recursoCompartido.descripcion }}</td>
+                            <td>{{ recursoCompartido.extension }}</td>
+                            <td>{{ recursoCompartido.fichero ? 'Yes' : 'No' }}</td>
+                            <td>
+                                <a href="{{ path('app_recurso_edit', {'id': recursoCompartido.id}) }}" class="table-link">Editar</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="px-6 py-4">No se han encontrado recursos</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+    </div>
+
 {% endblock %}

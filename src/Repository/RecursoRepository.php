@@ -91,4 +91,24 @@ class RecursoRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findByFicherosAndUsuario($usuario)
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.propietario = :usuario and r.fichero = true')
+            ->setParameter('usuario', $usuario)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByFichero(mixed $recurso)
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.id = :recurso and r.fichero = true')
+            ->setParameter('recurso', $recurso)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

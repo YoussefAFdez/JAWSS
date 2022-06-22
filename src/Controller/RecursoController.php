@@ -20,8 +20,19 @@ class RecursoController extends AbstractController
     #[Route('/', name: 'app_recurso_index', methods: ['GET'])]
     public function index(RecursoRepository $recursoRepository): Response
     {
+        //Recogemos los recursos que pertenecen al usuario y son ficheros
+        $recursos = $recursoRepository->findByFicherosAndUsuario($this->getUser());
+
+        //Recogemos los recursos compartidos con el usuario y los agregamos en un array
+        $recursosAccesibles = $this->getUser()->getRecursosAccesibles();
+        $recursosCompartidos = [];
+        foreach ($recursosAccesibles as $recurso) {
+            if ($recurso->isFichero()) $recursosCompartidos[] = $recurso;
+        }
+
         return $this->render('recurso/index.html.twig', [
-            'recursos' => $recursoRepository->findFicheros(),
+            'recursos' => $recursos,
+            'recursosCompartidos' => $recursosCompartidos,
         ]);
     }
 
@@ -62,7 +73,29 @@ class RecursoController extends AbstractController
     #[Route('/{id}', name: 'app_recurso_show', methods: ['GET'])]
     public function show(Recurso $recurso): Response
     {
+        //Si el usuario no es admin y no es propietario le denegamos el paso
+        if (!$this->getUser()->isAdministrador()) {
+            if ($this->getUser() != $recurso->getPropietario()) {
+                throw $this->createAccessDeniedException('No tienes acceso a este recurso porque no eres su propietario.');
+            }
+        }
+
         return $this->render('recurso/show.html.twig', [
+            'recurso' => $recurso,
+        ]);
+    }
+
+    #[Route('/guest/{id}', name: 'app_recurso_show_guest', methods: ['GET'])]
+    public function showInvitado(Recurso $recurso): Response
+    {
+        //Si el usuario no es admin y no tiene acceso denegamos el paso
+        if (!$this->getUser()->isAdministrador()) {
+            if (!$recurso->getUsuarios()->contains($this->getUser())) {
+                throw $this->createAccessDeniedException('No tienes acceso a este recurso.');
+            }
+        }
+
+        return $this->render('recurso/showInvitado.html.twig', [
             'recurso' => $recurso,
         ]);
     }
@@ -70,6 +103,11 @@ class RecursoController extends AbstractController
     #[Route('/{id}/edit', name: 'app_recurso_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Recurso $recurso, RecursoRepository $recursoRepository): Response
     {
+        //Denegamos el acceso si el usuario que entra no es el propietario o admin
+        if ($this->getUser() != $recurso->getPropietario() && !$this->getUser()->isAdministrador()) {
+            throw $this->createAccessDeniedException('No tienes acceso a este recurso porque no eres su propietario.');
+        }
+
         $form = $this->createForm(RecursoType::class, $recurso);
         $form->handleRequest($request);
 

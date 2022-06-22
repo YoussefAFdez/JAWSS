@@ -1,0 +1,36 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Recurso{% endblock %}
+
+{% block contenido %}
+    <h1 class="text-xl my-4 font-bold">{{ recurso.nombre }}</h1>
+
+    <table class="table mb-4">
+        <tbody>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td class="px-6 py-4 font-bold">Id</td>
+                <td class="px-6 py-4">{{ recurso.id }}</td>
+            </tr>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td class="px-6 py-4 font-bold">Nombre</td>
+                <td class="px-6 py-4">{{ recurso.nombre }}</td>
+            </tr>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td class="px-6 py-4 font-bold">Descripción</td>
+                <td class="px-6 py-4">{{ recurso.descripcion }}</td>
+            </tr>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td class="px-6 py-4 font-bold">Extensión</td>
+                <td class="px-6 py-4">{{ recurso.extension }}</td>
+            </tr>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td class="px-6 py-4 font-bold">Fichero</td>
+                <td class="px-6 py-4">{{ recurso.fichero ? 'Si' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="mb-4">
+        <a href="{{ path('app_recurso_index') }}" class="text-blue-600 hover:underline mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
+    </div>
+{% endblock %}
