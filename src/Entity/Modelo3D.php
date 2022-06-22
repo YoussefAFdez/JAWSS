@@ -29,7 +29,7 @@ class Modelo3D
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Range(min=0, max=1, notInRangeMessage="El valor establecido tiene que estar entre 0 y 100")
+     * @Assert\Range(min=0, max=100, notInRangeMessage="El valor establecido tiene que estar entre 0 y 100")
      */
     private $relleno;
 
@@ -40,7 +40,6 @@ class Modelo3D
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank(message="Debes indicar si el modelo lleva soportes o no")
      */
     private $soportes;
 
