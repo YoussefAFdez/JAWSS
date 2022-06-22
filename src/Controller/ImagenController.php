@@ -91,6 +91,13 @@ class ImagenController extends AbstractController
 
                 $imagen->getRecurso()->setExtension($extension);
 
+                //Comprobamos si se ha dejado el campo nombre en blanco:
+                if ($form->get('recurso')->get('nombre')->getData() == "") {
+                    $imagen->getRecurso()->setNombre(pathinfo($nombreFichero, PATHINFO_FILENAME));
+                } else {
+                    $imagen->getRecurso()->setNombre(($form->get('nombre')->getData()));
+                }
+
                 $imagenRepository->add($imagen, true);
 
                 //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario

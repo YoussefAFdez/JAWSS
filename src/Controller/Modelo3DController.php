@@ -80,6 +80,13 @@ class Modelo3DController extends AbstractController
                 }
 
                 $modelo3D->getRecurso()->setExtension($extension);
+
+                //Comprobamos si se ha dejado el campo nombre en blanco:
+                if ($form->get('recurso')->get('nombre')->getData() == "") {
+                    $modelo3D->getRecurso()->setNombre(pathinfo($nombreFichero, PATHINFO_FILENAME));
+                } else {
+                    $modelo3D->getRecurso()->setNombre(($form->get('nombre')->getData()));
+                }
                 
                 $modelo3DRepository->add($modelo3D, true);
 

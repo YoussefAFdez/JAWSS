@@ -83,6 +83,13 @@ class VideoController extends AbstractController
 
                 $video->getRecurso()->setExtension($extension);
 
+                //Comprobamos si se ha dejado el campo nombre en blanco:
+                if ($form->get('recurso')->get('nombre')->getData() == "") {
+                    $video->getRecurso()->setNombre(pathinfo($nombreFichero, PATHINFO_FILENAME));
+                } else {
+                    $video->getRecurso()->setNombre(($form->get('nombre')->getData()));
+                }
+
                 $videoRepository->add($video, true);
 
                 //Agregamos el tamaño del video al total de bytes usados por el usuario

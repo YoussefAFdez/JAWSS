@@ -81,6 +81,13 @@ class AudioController extends AbstractController
 
                 $audio->getRecurso()->setExtension($extension);
 
+                //Comprobamos si se ha dejado el campo nombre en blanco:
+                if ($form->get('recurso')->get('nombre')->getData() == "") {
+                    $audio->getRecurso()->setNombre(pathinfo($nombreFichero, PATHINFO_FILENAME));
+                } else {
+                    $audio->getRecurso()->setNombre(($form->get('nombre')->getData()));
+                }
+
                 $audioRepository->add($audio, true);
 
                 //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario
