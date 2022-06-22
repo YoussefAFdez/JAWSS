@@ -99,7 +99,7 @@ class VideoController extends AbstractController
         ]);
     }
 
-    #[Route('/guest/{id}', name: 'app_imagen_show_guest', methods: ['GET'])]
+    #[Route('/guest/{id}', name: 'app_video_show_guest', methods: ['GET'])]
     public function showInvitado(Video $video): Response
     {
         //Si el usuario no es admin y no tiene acceso denegamos el paso
