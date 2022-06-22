@@ -31,69 +31,61 @@
         </ul>
     </div>
     <div id="myTabContent">
-        <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <div class="table-wrapper">
-                <table class="table">
-                    <thead>
+        <div class="table-wrapper" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Duración</th>
+                    <th><span class="sr-only">Editar</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for index, audio in audios %}
                     <tr>
-                        <th>#</th>
-                        <th>Nombre</th>
-                        <th>Duración</th>
-                        <th><span class="sr-only">Editar</span></th>
+                        <td>{{ index + 1 }}</td>
+                        <td class="table-enfasis">
+                            <a href="{{ path('app_audio_show', {'id': audio[0].id}) }}" class="table-link">{{ audio[0].recurso.nombre }}</a>
+                        </td>
+                        <td>{{ audio[0].duracion }}</td>
+                        <td>
+                            <a href="{{ path('app_audio_edit', {'id': audio[0].id}) }}" class="table-link">Editar</a>
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    {% for index, audio in audios %}
-                        <tr>
-                            <td>{{ index + 1 }}</td>
-                            <td class="table-enfasis">
-                                <a href="{{ path('app_audio_show', {'id': audio[0].id}) }}" class="table-link">{{ audio[0].recurso.nombre }}</a>
-                            </td>
-                            <td>{{ audio[0].duracion }}</td>
-                            <td>
-                                <a href="{{ path('app_audio_edit', {'id': audio[0].id}) }}" class="table-link">Editar</a>
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="4">No se han encontrado canciones</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="px-6 py-4">No se han encontrado canciones</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
-        <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
-            <div class="table-wrapper">
-                <table class="table">
-                    <thead>
+        <div class="table-wrapper" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Duración</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for index, audioCompartido in audiosCompartidos %}
                     <tr>
-                        <th>#</th>
-                        <th>Nombre</th>
-                        <th>Duración</th>
-                        <th><span class="sr-only">Editar</span></th>
+                        <td>{{ index + 1 }}</td>
+                        <td class="table-enfasis">
+                            <a href="{{ path('app_audio_show_guest', {'id': audioCompartido[0].id}) }}" class="table-link">{{ audioCompartido[0].recurso.nombre }}</a>
+                        </td>
+                        <td>{{ audioCompartido[0].duracion }}</td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    {% for index, audioCompartido in audiosCompartidos %}
-                        <tr>
-                            <td>{{ index + 1 }}</td>
-                            <td class="table-enfasis">
-                                <a href="{{ path('app_audio_show_guest', {'id': audioCompartido[0].id}) }}" class="table-link">{{ audioCompartido[0].recurso.nombre }}</a>
-                            </td>
-                            <td>{{ audioCompartido[0].duracion }}</td>
-                            <td>
-                                <a href="{{ path('app_audio_edit', {'id': audioCompartido[0].id}) }}" class="table-link">Editar</a>
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="4">No se han encontrado canciones</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                {% else %}
+                    <tr>
+                        <td colspan="3" class="px-6 py-4">No se han encontrado canciones</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}
