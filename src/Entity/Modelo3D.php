@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\Modelo3DRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -22,11 +23,13 @@ class Modelo3D
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="No se puede dejar el material en blanco")
      */
     private $material;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Range(min=0, max=1, notInRangeMessage="El valor establecido tiene que estar entre 0 y 100")
      */
     private $relleno;
 
@@ -37,11 +40,13 @@ class Modelo3D
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotBlank(message="Debes indicar si el modelo lleva soportes o no")
      */
     private $soportes;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url(message="La URL introducida no es valida")
      */
     private $url;
 

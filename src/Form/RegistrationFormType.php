@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationFormType extends AbstractType
@@ -51,7 +52,14 @@ class RegistrationFormType extends AbstractType
                     'label' => 'Contraseña: ',
                     'constraints' => [
                         new NotBlank([
-                            'groups' => ['password']
+                            'groups' => ['password'],
+                            'message' => 'La contraseña no puede estar vacía',
+                        ]),
+                        new Length([
+                            'min' => 6,
+                            'max' => 50,
+                            'minMessage' => 'La contraseña debe de tener al menos 6 caracteres',
+                            'maxMessage' => 'La contraseña puede tener como mucho 50 caracteres',
                         ])
                     ],
                     'attr' => array(

@@ -6,6 +6,7 @@ use App\Repository\TierRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TierRepository::class)
@@ -21,11 +22,13 @@ class Tier
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max=50, maxMessage="El nombre del plan no puede tener mas de 50 caracteres.")
      */
     private $nombre;
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\Range(max=4192, maxMessage="El almacenamiento no puede ser superior a 4192MB", min="100", minMessage="El almacenamiento debe de ser como minimo de 100Mb")
      */
     private $almacenamiento;
 

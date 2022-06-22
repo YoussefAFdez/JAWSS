@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UsuarioRepository::class)
@@ -27,52 +28,66 @@ class Usuario implements PasswordAuthenticatedUserInterface, UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $nombre;
+
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="El campo apellidos no puede estar vacío")
      */
     private $apellidos;
+
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank(message="Debes introducir un nombre de usuario")
+     * @Assert\Length(min=3, minMessage="El nombre de usuario debe contener al menos 3 caracteres", max=20, maxMessage="El nombre de usuario no puede tener más de 20 caracteres")
      */
     private $nombreUsuario;
+
     /**
      * @var string
      * @ORM\Column(type="string")
      */
     private $clave;
+
     /**
      * @var string
      * @ORM\Column(type="string", unique=true)
      */
     private $email;
+
     /**
      * @var bool
      * @ORM\Column(type="boolean")
      */
     private $administrador;
+
     /**
      * @var string
      * @ORM\Column(type="bigint")
      */
     private $espacioUtilizado;
+
     /**
      * @ORM\ManyToOne(targetEntity=Tier::class, inversedBy="usuarios")
      * @ORM\JoinColumn(nullable=false)
      */
     private $tier;
+
     /**
      * @ORM\OneToMany(targetEntity=Recurso::class, mappedBy="propietario")
      */
     private $recursos;
+
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Recurso", mappedBy="usuarios")
      * @JoinTable(name="acceso")
      */
     private $recursosAccesibles;
+
     /**
      * @ORM\ManyToMany(targetEntity=Recurso::class, mappedBy="favorito")
      * @JoinTable(name="favoritos")

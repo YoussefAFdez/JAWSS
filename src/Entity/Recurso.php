@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -25,6 +26,7 @@ class Recurso
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max=200, maxMessage="El nombre del fichero no puede tener mas de 200 caracteres.")
      */
     private $nombre;
 
