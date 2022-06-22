@@ -9,6 +9,7 @@ use App\Repository\UsuarioRepository;
 use App\Repository\VideoRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -62,6 +63,25 @@ class VideoController extends AbstractController
                 } else {
                     $video->getRecurso()->removeFavorito($this->getUser());
                 }
+
+                $nombreFichero = $form->get('videoFile')->getData()->getClientOriginalName();
+                $extension = pathinfo($nombreFichero, PATHINFO_EXTENSION);
+
+                $extensionesValidas = ['mp4', 'ogv', 'webm'];
+
+                try {
+                    if (!in_array($extension, $extensionesValidas)) {
+                        throw new FileException("El fichero que intentas subir al servidor no tiene un formato aceptado. Los formatos aceptados son: mp4, ogv, webm.");
+                    }
+                } catch (\Exception $e) {
+                    $this->addFlash('error', $e->getMessage());
+                    return $this->renderForm('video/new.html.twig', [
+                        'video' => $video,
+                        'form' => $form,
+                    ]);
+                }
+
+                $video->getRecurso()->setExtension($extension);
 
                 $videoRepository->add($video, true);
 

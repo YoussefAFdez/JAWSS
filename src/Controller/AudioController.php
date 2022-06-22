@@ -9,6 +9,7 @@ use App\Repository\RecursoRepository;
 use App\Repository\UsuarioRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -61,6 +62,25 @@ class AudioController extends AbstractController
                     $audio->getRecurso()->removeFavorito($this->getUser());
                 }
 
+                $nombreFichero = $form->get('audioFile')->getData()->getClientOriginalName();
+                $extension = pathinfo($nombreFichero, PATHINFO_EXTENSION);
+
+                $extensionesValidas = ['wav', 'mp3', 'flac'];
+
+                try {
+                    if (!in_array($extension, $extensionesValidas)) {
+                        throw new FileException("El fichero que intentas subir al servidor no tiene un formato aceptado. Los formatos aceptados son: wav, mp3, flac.");
+                    }
+                } catch (\Exception $e) {
+                    $this->addFlash('error', $e->getMessage());
+                    return $this->renderForm('audio/new.html.twig', [
+                        'audio' => $audio,
+                        'form' => $form,
+                    ]);
+                }
+
+                $audio->getRecurso()->setExtension($extension);
+
                 $audioRepository->add($audio, true);
 
                 //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario
@@ -68,7 +88,7 @@ class AudioController extends AbstractController
                 $usuario->setEspacioUtilizado($usuario->getEspacioUtilizado() + $audio->getTamanio());
                 $usuarioRepository->add($usuario, true);
 
-                $this->addFlash('exito', '¡Se ha subido el audio ' . $audio->getRecurso()->getNombre() . ' con éxito!');
+                $this->addFlash('exito', '¡Se ha subido el audio "' . $audio->getRecurso()->getNombre() . '" con éxito!');
             } catch (\Exception $e) {
                 $this->addFlash('error', 'Ha ocurrido un error a la hora de subir el audio...');
 

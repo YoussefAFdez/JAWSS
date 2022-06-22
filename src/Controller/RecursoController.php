@@ -55,6 +55,10 @@ class RecursoController extends AbstractController
                     $recurso->removeFavorito($this->getUser());
                 }
 
+                $nombreFichero = $form->get('ficheroFile')->getData()->getClientOriginalName();
+                $extension = pathinfo($nombreFichero, PATHINFO_EXTENSION);
+                $recurso->getRecurso()->setExtension($extension);
+
                 $recursoRepository->add($recurso, true);
 
                 //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario

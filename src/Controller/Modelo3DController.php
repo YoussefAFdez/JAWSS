@@ -9,6 +9,7 @@ use App\Repository\RecursoRepository;
 use App\Repository\UsuarioRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -60,6 +61,25 @@ class Modelo3DController extends AbstractController
                 } else {
                     $modelo3D->getRecurso()->removeFavorito($this->getUser());
                 }
+
+                $nombreFichero = $form->get('modeloFile')->getData()->getClientOriginalName();
+                $extension = pathinfo($nombreFichero, PATHINFO_EXTENSION);
+
+                $extensionesValidas = ['glb', 'fbx', 'stl'];
+
+                try {
+                    if (!in_array($extension, $extensionesValidas)) {
+                        throw new FileException("El fichero que intentas subir al servidor no tiene un formato aceptado. Los formatos aceptados son: glb, fbx, stl.");
+                    }
+                } catch (\Exception $e) {
+                    $this->addFlash('error', $e->getMessage());
+                    return $this->renderForm('modelo3d/new.html.twig', [
+                        'modelo3d' => $modelo3D,
+                        'form' => $form,
+                    ]);
+                }
+
+                $modelo3D->getRecurso()->setExtension($extension);
                 
                 $modelo3DRepository->add($modelo3D, true);
 
@@ -130,7 +150,7 @@ class Modelo3DController extends AbstractController
                 } else {
                     $modelo3D->getRecurso()->removeFavorito($this->getUser());
                 }
-                
+
                 $modelo3DRepository->add($modelo3D, true);
                 $this->addFlash('exito', '¡Se ha modificado el objeto "' . $modelo3D->getRecurso()->getNombre() . '" con éxito!');
             } catch (\Exception $e) {
