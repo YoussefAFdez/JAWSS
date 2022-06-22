@@ -67,7 +67,7 @@ class SeguridadController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
 
-                $this->addFlash('exito', 'Se ha registrado su cuenta correctamente.');
+                $this->addFlash('exito', 'Se ha registrado su cuenta correctamente. Se ha enviado a su direccion de correo un mensaje de verificación');
             } catch (\Exception $e) {
                 $this->addFlash('error', $e->getMessage());
             }

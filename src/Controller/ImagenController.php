@@ -56,6 +56,12 @@ class ImagenController extends AbstractController
             try {
                 $imagen->getRecurso()->setFichero(false);
                 $imagen->getRecurso()->setPropietario($this->getUser());
+                if ($form->get('recurso')->get('favorito')->getData()) {
+                    $imagen->getRecurso()->addFavorito($this->getUser());
+                } else {
+                    $imagen->getRecurso()->removeFavorito($this->getUser());
+                }
+
                 $imagenRepository->add($imagen, true);
 
                 //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario
@@ -66,6 +72,7 @@ class ImagenController extends AbstractController
                 $this->addFlash('exito', '¡Se ha subido la imagen ' . $imagen->getRecurso()->getNombre() . ' con éxito!');
             } catch (\Exception $e) {
                 $this->addFlash('error', 'Ha ocurrido un error a la hora de subir la imagen...');
+                $this->addFlash('error', $e->getMessage());
             }
 
             return $this->redirectToRoute('app_imagen_index', [], Response::HTTP_SEE_OTHER);
@@ -120,6 +127,11 @@ class ImagenController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                if ($form->get('recurso')->get('favorito')->getData()) {
+                    $imagen->getRecurso()->addFavorito($this->getUser());
+                } else {
+                    $imagen->getRecurso()->removeFavorito($this->getUser());
+                }
                 $imagenRepository->add($imagen, true);
                 $this->addFlash('exito', '¡Se ha modificado la imagen "' . $imagen->getRecurso()->getNombre() . '" con éxito!');
             } catch (\Exception $e) {
