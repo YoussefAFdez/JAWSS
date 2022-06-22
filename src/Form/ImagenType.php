@@ -18,7 +18,10 @@ class ImagenType extends AbstractType
     {
         $builder
             ->add('recurso', RecursoType::class)
-            ->add('resolucion', TextType::class)
+            ->add('resolucion', TextType::class, [
+                'label' => 'Resolución:',
+                'required' => false,
+            ])
         ;
         if ($options['nuevo']) {
             $builder->add('imageFile', VichImageType::class, [

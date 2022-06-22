@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Video;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichFileType;
@@ -16,7 +17,10 @@ class VideoType extends AbstractType
     {
         $builder
             ->add('recurso', RecursoType::class)
-            ->add('duracion')
+            ->add('duracion', TextType::class, [
+                'label' => 'Duración:',
+                'required' => false,
+            ])
         ;
 
         if ($options['nuevo']) {

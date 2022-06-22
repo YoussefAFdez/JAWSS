@@ -16,7 +16,10 @@ class AudioType extends AbstractType
     {
         $builder
             ->add('recurso', RecursoType::class)
-            ->add('duracion', TextType::class)
+            ->add('duracion', TextType::class, [
+                'label' => 'Duración:',
+                'required' => false,
+            ])
         ;
         if ($options['nuevo']) {
             $builder->add('audioFile', VichFileType::class, [

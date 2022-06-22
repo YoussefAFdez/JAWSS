@@ -29,7 +29,7 @@ class Imagen
     private $imageFile;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $resolucion;
 
@@ -70,10 +70,10 @@ class Imagen
     }
 
     /**
-     * @param mixed $resolucion
+     * @param string $resolucion
      * @return Imagen
      */
-    public function setResolucion($resolucion)
+    public function setResolucion(?string $resolucion)
     {
         $this->resolucion = $resolucion;
         return $this;

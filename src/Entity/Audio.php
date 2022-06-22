@@ -21,7 +21,7 @@ class Audio
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $duracion;
 
@@ -58,7 +58,7 @@ class Audio
         return $this->duracion;
     }
 
-    public function setDuracion(string $duracion): self
+    public function setDuracion(?string $duracion): self
     {
         $this->duracion = $duracion;
 
