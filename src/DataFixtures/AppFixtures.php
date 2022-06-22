@@ -33,12 +33,12 @@ class AppFixtures extends Fixture
             ];
         });
 
-        $admin = UsuarioFactory::new()->create(function() use ($basico) {
+        $admin = UsuarioFactory::new()->create(function() use ($premium) {
             return [
-                'email' => 'admin@admin.com',
-                'nombreUsuario' => 'admin',
+                'email' => 'chuck@norris.com',
+                'nombreUsuario' => 'chucknorris',
                 'administrador' => 'true',
-                'tier' => $basico,
+                'tier' => $premium,
             ];
         });
 
