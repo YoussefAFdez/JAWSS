@@ -54,10 +54,17 @@ class RecursoController extends AbstractController
                 } else {
                     $recurso->removeFavorito($this->getUser());
                 }
+                //Recuperamos el nombre del fichero subido y su extension
+                $nombreCompleto = $form->get('ficheroFile')->getData()->getClientOriginalName();
+                $extension = pathinfo($nombreCompleto, PATHINFO_EXTENSION);
 
-                $nombreFichero = $form->get('ficheroFile')->getData()->getClientOriginalName();
-                $extension = pathinfo($nombreFichero, PATHINFO_EXTENSION);
-                $this->addFlash('exito', pathinfo($nombreFichero, PATHINFO_FILENAME));
+                //Comprobamos si se ha dejado el campo nombre en blanco:
+                if ($form->get('nombre')->getData() == "") {
+                    $recurso->setNombre(pathinfo($nombreCompleto, PATHINFO_FILENAME));
+                } else {
+                    $recurso->setNombre($form->get('nombre')->getData());
+                }
+
                 $recurso->setExtension($extension);
 
                 $recursoRepository->add($recurso, true);

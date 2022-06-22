@@ -21,9 +21,12 @@ class RecursoType extends AbstractType
         $builder
             ->add('nombre', TextType::class, [
                 'label' => 'Nombre:',
+                'required' => false,
+                'mapped' => false,
             ])
             ->add('descripcion', TextareaType::class, [
                 'label' => 'Descripción:',
+                'required' => false,
             ])
             ->add('favorito', CheckboxType::class, [
                 'label' => 'Favorito',
