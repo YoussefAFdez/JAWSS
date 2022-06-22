@@ -9,6 +9,7 @@ use App\Repository\RecursoRepository;
 use App\Repository\UsuarioRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -70,6 +71,25 @@ class ImagenController extends AbstractController
                 } else {
                     $imagen->getRecurso()->removeFavorito($this->getUser());
                 }
+
+                $nombreFichero = $form->get('imageFile')->getData()->getClientOriginalName();
+                $extension = pathinfo($nombreFichero, PATHINFO_EXTENSION);
+
+                $extensionesValidas = ['jpg', 'png', 'gif', 'jpeg'];
+
+                try {
+                    if (!in_array($extension, $extensionesValidas)) {
+                        throw new FileException("El fichero que intentas subir al servidor no tiene un formato aceptado. Los formatos aceptados son: jpeg, jpg, png, gif.");
+                    }
+                } catch (\Exception $e) {
+                    $this->addFlash('error', $e->getMessage());
+                    return $this->renderForm('imagen/new.html.twig', [
+                        'imagen' => $imagen,
+                        'form' => $form,
+                    ]);
+                }
+
+                $imagen->getRecurso()->setExtension($extension);
 
                 $imagenRepository->add($imagen, true);
 
