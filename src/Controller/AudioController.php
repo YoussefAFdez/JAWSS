@@ -79,6 +79,22 @@ class AudioController extends AbstractController
                     ]);
                 }
 
+                //Comprobamos que el fichero a subir no nos haga exceder por encima del limite de nuestro tier
+                $tamanioFichero = $form->get('audioFile')->getData()->getSize();
+                $tamanioResultante = $this->getUser()->getEspacioUtilizado() + $tamanioFichero;
+
+                try {
+                    if ($tamanioResultante > $this->getUser()->getTier()->getAlmacenamiento()) {
+                        throw new \Exception('No se ha podido subir el archivo ya que excedería tu cuota o plan actual.');
+                    }
+                } catch (\Exception $e) {
+                    $this->addFlash('error', $e->getMessage());
+                    return $this->renderForm('audio/new.html.twig', [
+                        'audio' => $audio,
+                        'form' => $form,
+                    ]);
+                }
+
                 $audio->getRecurso()->setExtension($extension);
 
                 //Comprobamos si se ha dejado el campo nombre en blanco:
