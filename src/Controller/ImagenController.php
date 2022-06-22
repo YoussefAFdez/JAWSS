@@ -33,13 +33,22 @@ class ImagenController extends AbstractController
         $recursosAccesibles = $this->getUser()->getRecursosAccesibles();
         $imagenesCompartidas = [];
         foreach ($recursosAccesibles as $recurso) {
-            $imagenenCompartida = $imagenRepository->findByRecurso($recurso);
-            if (!empty($imagenCompartida)) $imagenesCompartidas[] = $imagenenCompartida;
+            $imagenCompartida = $imagenRepository->findByRecurso($recurso);
+            if (!empty($imagenCompartida)) $imagenesCompartidas[] = $imagenCompartida;
+        }
+
+        //Recogemos los recursos favoritos del usuario y los agregamos a un array
+        $recursosFavoritos = $this->getUser()->getFavoritos();
+        $imagenesFavoritas = [];
+        foreach ($recursosFavoritos as $recurso) {
+            $imagenFavorita = $imagenRepository->findByRecurso($recurso);
+            if (!empty($imagenFavorita)) $imagenesFavoritas[] = $imagenFavorita;
         }
 
         return $this->render('imagen/index.html.twig', [
             'imagenes' => $imagenes,
             'imagenesCompartidas' => $imagenesCompartidas,
+            'imagenesFavoritas' => $imagenesFavoritas,
         ]);
     }
 
