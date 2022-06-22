@@ -57,6 +57,12 @@ class VideoController extends AbstractController
                 //Declaramos que no es un fichero corriente y el usuario que lo sube
                 $video->getRecurso()->setFichero(false);
                 $video->getRecurso()->setPropietario($this->getUser());
+                if ($form->get('recurso')->get('favorito')->getData()) {
+                    $video->getRecurso()->addFavorito($this->getUser());
+                } else {
+                    $video->getRecurso()->removeFavorito($this->getUser());
+                }
+
                 $videoRepository->add($video, true);
 
                 //Agregamos el tamaño del video al total de bytes usados por el usuario
@@ -122,6 +128,11 @@ class VideoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                if ($form->get('recurso')->get('favorito')->getData()) {
+                    $video->getRecurso()->addFavorito($this->getUser());
+                } else {
+                    $video->getRecurso()->removeFavorito($this->getUser());
+                }
                 $videoRepository->add($video, true);
                 $this->addFlash('exito', '¡Se ha modificado el vídeo "' . $video->getRecurso()->getNombre() . '" con éxito!');
             } catch (\Exception $e) {

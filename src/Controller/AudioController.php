@@ -55,6 +55,12 @@ class AudioController extends AbstractController
             try {
                 $audio->getRecurso()->setFichero(false);
                 $audio->getRecurso()->setPropietario($this->getUser());
+                if ($form->get('recurso')->get('favorito')->getData()) {
+                    $audio->getRecurso()->addFavorito($this->getUser());
+                } else {
+                    $audio->getRecurso()->removeFavorito($this->getUser());
+                }
+
                 $audioRepository->add($audio, true);
 
                 //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario
@@ -120,6 +126,12 @@ class AudioController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                if ($form->get('recurso')->get('favorito')->getData()) {
+                    $audio->getRecurso()->addFavorito($this->getUser());
+                } else {
+                    $audio->getRecurso()->removeFavorito($this->getUser());
+                }
+
                 $audioRepository->add($audio, true);
                 $this->addFlash('exito', '¡Se ha modificado el audio "' . $audio->getRecurso()->getNombre() . '" con éxito!');
             } catch (\Exception $e) {

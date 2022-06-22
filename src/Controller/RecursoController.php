@@ -49,6 +49,12 @@ class RecursoController extends AbstractController
             try {
                 $recurso->setFichero(true);
                 $recurso->setPropietario($this->getUser());
+                if ($form->get('recurso')->get('favorito')->getData()) {
+                    $recurso->addFavorito($this->getUser());
+                } else {
+                    $recurso->removeFavorito($this->getUser());
+                }
+
                 $recursoRepository->add($recurso, true);
 
                 //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario
@@ -113,6 +119,12 @@ class RecursoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                if ($form->get('recurso')->get('favorito')->getData()) {
+                    $recurso->addFavorito($this->getUser());
+                } else {
+                    $recurso->removeFavorito($this->getUser());
+                }
+
                 $recursoRepository->add($recurso, true);
                 $this->addFlash('exito', '¡Se ha modificado el recurso "' . $recurso->getNombre() . '" con éxito!');
             } catch (\Exception $e) {

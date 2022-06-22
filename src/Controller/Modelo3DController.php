@@ -55,6 +55,12 @@ class Modelo3DController extends AbstractController
             try {
                 $modelo3D->getRecurso()->setFichero(false);
                 $modelo3D->getRecurso()->setPropietario($this->getUser());
+                if ($form->get('recurso')->get('favorito')->getData()) {
+                    $modelo3D->getRecurso()->addFavorito($this->getUser());
+                } else {
+                    $modelo3D->getRecurso()->removeFavorito($this->getUser());
+                }
+                
                 $modelo3DRepository->add($modelo3D, true);
 
                 //Agregamos el tamaño de la nueva imagen al total de bytes usados por el usuario
@@ -119,6 +125,12 @@ class Modelo3DController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                if ($form->get('recurso')->get('favorito')->getData()) {
+                    $modelo3D->getRecurso()->addFavorito($this->getUser());
+                } else {
+                    $modelo3D->getRecurso()->removeFavorito($this->getUser());
+                }
+                
                 $modelo3DRepository->add($modelo3D, true);
                 $this->addFlash('exito', '¡Se ha modificado el objeto "' . $modelo3D->getRecurso()->getNombre() . '" con éxito!');
             } catch (\Exception $e) {
