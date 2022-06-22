@@ -14,6 +14,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -141,5 +142,30 @@ class SeguridadController extends AbstractController
             'usuario' => $usuario,
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route("/account/delete/{id}", name: "app_borrar_cuenta")]
+    #[Security("is_granted('ROLE_USER')")]
+    public function borrarCuenta(Request $request, Usuario $usuario, UsuarioRepository $usuarioRepository) : Response
+    {
+        $nombreUsuario = $usuario->getNombreUsuario();
+
+        if ($this->isCsrfTokenValid('delete'.$usuario->getId(), $request->request->get('_token'))) {
+            try {
+                $currentUser = $this->getUser();
+                if ($currentUser == $usuario)
+                {
+                    $session = $this->get('session');
+                    $session = new Session();
+                    $session->invalidate();
+                }
+                $usuarioRepository->remove($usuario, true);
+                $this->addFlash('exito', 'Se ha eliminado con éxito su usuario "' . $nombreUsuario . '"');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Ha ocurrido un error a la hora de eliminar al usuario "' . $nombreUsuario . '"');
+            }
+        }
+
+        return $this->redirectToRoute('app_usuario_index', [], Response::HTTP_SEE_OTHER);
     }
 }

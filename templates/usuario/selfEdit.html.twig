@@ -8,6 +8,6 @@
     {{ include('usuario/_editarForm.html.twig', {'button_label': 'Actualizar'}) }}
     <div class="mb-4">
         <a href="{{ path('app_usuario_index') }}" class="text-blue-600 mr-2"><span class="fa-solid fa-arrow-left"></span> Volver</a>
-        {{ include('usuario/_delete_form.html.twig') }}
+        {{ include('usuario/_deleteSelf_form.html.twig') }}
     </div>
 {% endblock %}
