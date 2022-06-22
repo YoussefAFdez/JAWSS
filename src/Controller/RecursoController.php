@@ -49,7 +49,7 @@ class RecursoController extends AbstractController
             try {
                 $recurso->setFichero(true);
                 $recurso->setPropietario($this->getUser());
-                if ($form->get('recurso')->get('favorito')->getData()) {
+                if ($form->get('favorito')->getData()) {
                     $recurso->addFavorito($this->getUser());
                 } else {
                     $recurso->removeFavorito($this->getUser());
@@ -57,7 +57,8 @@ class RecursoController extends AbstractController
 
                 $nombreFichero = $form->get('ficheroFile')->getData()->getClientOriginalName();
                 $extension = pathinfo($nombreFichero, PATHINFO_EXTENSION);
-                $recurso->getRecurso()->setExtension($extension);
+                $this->addFlash('exito', pathinfo($nombreFichero, PATHINFO_FILENAME));
+                $recurso->setExtension($extension);
 
                 $recursoRepository->add($recurso, true);
 
@@ -69,6 +70,7 @@ class RecursoController extends AbstractController
                 $this->addFlash('exito', '¡Se ha subido el recurso ' . $recurso->getNombre() . ' con éxito!');
             } catch (\Exception $e) {
                 $this->addFlash('error', 'Ha ocurrido un error a la hora de subir el recurso...');
+                $this->addFlash('error', $e->getMessage());
             }
 
             return $this->redirectToRoute('app_recurso_index', [], Response::HTTP_SEE_OTHER);
